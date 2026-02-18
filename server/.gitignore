@@ -1,0 +1,8 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Also ignore your dependencies while you're at it
+node_modules/
+dist/
