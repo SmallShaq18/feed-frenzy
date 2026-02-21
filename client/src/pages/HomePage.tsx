@@ -37,7 +37,7 @@ export default function HomePage() {
               What the data is screaming at us
             </p>
           </div>
-          <InsightFeed featured limit={5} />
+          <InsightFeed limit={5} />
         </aside>
       </div>
     </div>

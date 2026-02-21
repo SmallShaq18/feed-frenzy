@@ -33,10 +33,10 @@
     /* Category colors */
     --color-cat-tech:     #00E5FF;
     --color-cat-ai:       #BF5FFF;
-    --color-cat-business: #FFE500;
+    --color-cat-movies:   #FF1493;
     --color-cat-crypto:   #FF9500;
     --color-cat-startups: #00FF94;
-    --color-cat-science:  #FF4D4D;
+    --color-cat-anime:    #FF6B9D;
 
     /* Sentiment colors */
     --color-sentiment-positive: #00FF94;
@@ -271,4 +271,30 @@
     0%   { background-position: -200% 0; }
     100% { background-position:  200% 0; }
   }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
 }
+
+/* Shimmer animation for skeletons */
+  .animate-shimmer {
+    animation: shimmer 1.5s infinite linear;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+  }
+
+

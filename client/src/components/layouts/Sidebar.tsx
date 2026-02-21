@@ -7,10 +7,10 @@ import clsx from 'clsx';
 const CATEGORIES = [
   { value: 'tech',     label: 'Technology' },
   { value: 'ai',       label: 'Artificial Intelligence' },
-  { value: 'business', label: 'Business' },
   { value: 'crypto',   label: 'Crypto & Web3' },
   { value: 'startups', label: 'Startups' },
-  { value: 'science',  label: 'Science' },
+  { value: 'movies',   label: 'Movies' },
+  { value: 'anime',    label: 'Anime' },
 ];
 
 const SENTIMENTS = [

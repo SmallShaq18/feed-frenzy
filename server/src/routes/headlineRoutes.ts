@@ -22,4 +22,10 @@ router.get('/:id', headlineController.getHeadlineById);
  */
 router.post('/', headlineController.createHeadline);
 
+/**
+ * @route   POST /api/headlines/:id/track-click
+ * @desc    Track article click
+ */
+//router.post('/:id/track-click', headlineController.trackClick);
+
 export default router;

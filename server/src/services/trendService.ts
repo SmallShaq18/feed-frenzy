@@ -116,7 +116,7 @@ class TrendService {
   /**
    * Get trending keywords for a specific time range
    */
-  async getTrendingKeywords(days: number = 7): Promise<string[]> {
+  async getTrendingKeywords(days: number = 3): Promise<string[]> {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
 

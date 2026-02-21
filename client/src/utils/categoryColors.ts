@@ -7,10 +7,10 @@
 export const CATEGORY_COLORS: Record<string, string> = {
   tech:     'var(--color-cat-tech)',
   ai:       'var(--color-cat-ai)',
-  business: 'var(--color-cat-business)',
   crypto:   'var(--color-cat-crypto)',
   startups: 'var(--color-cat-startups)',
-  science:  'var(--color-cat-science)',
+  movies:  'var(--color-cat-movies)',
+  anime:   'var(--color-cat-anime)',
 };
 
 export const TREND_STATUS_COLORS: Record<string, string> = {
@@ -35,4 +35,9 @@ export function getTrendStatusColor(status: string): string {
 
 export function getSentimentColor(sentiment?: string): string {
   return sentiment ? SENTIMENT_COLORS[sentiment] ?? 'var(--color-text-muted)' : 'var(--color-text-muted)';
+}
+
+export function isFreshArticle(publishedAt: string): boolean {
+  const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
+  return new Date(publishedAt).getTime() > twoHoursAgo;
 }

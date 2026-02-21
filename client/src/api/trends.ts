@@ -10,7 +10,7 @@ export async function fetchTrends(
   return data.data;
 }
 
-export async function fetchTrendingKeywords(days = 7): Promise<string[]> {
+export async function fetchTrendingKeywords(days = 3): Promise<string[]> {
   const { data } = await client.get('/trends/keywords', {
     params: { days },
   });

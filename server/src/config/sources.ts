@@ -58,20 +58,64 @@ export const NEWS_SOURCES: NewsSource[] = [
     category: 'tech',
   },
   
-  // Business & Finance
+  // Movies
+{
+  name: 'Variety - Film News',
+  enabled: true,
+  type: 'rss',
+  rssUrl: 'https://variety.com/v/film/feed/',
+  category: 'movies',
+},
+{
+  name: 'The Hollywood Reporter - Movies',
+  enabled: true,
+  type: 'rss',
+  rssUrl: 'https://www.hollywoodreporter.com/t/movies/feed/',
+  category: 'movies',
+},
+{
+  name: 'Screen Rant - Movie News',
+  enabled: true,
+  type: 'rss',
+  rssUrl: 'https://screenrant.com/movie-news/feed/',
+  category: 'movies',
+},
+{
+  name: 'Rotten Tomatoes - Movie News',
+  enabled: true,
+  type: 'rss',
+  rssUrl: 'https://editorial.rottentomatoes.com/feed/',
+  category: 'movies',
+},
+{
+  name: 'ComingSoon.net - Movies',
+  enabled: true,
+  type: 'rss',
+  rssUrl: 'https://www.comingsoon.net/category/movies/feed',
+  category: 'movies',
+},
+
+  // Anime & Manga
   {
-    name: 'Bloomberg Technology',
+    name: 'Crunchyroll News',
     enabled: true,
     type: 'rss',
-    rssUrl: 'https://feeds.bloomberg.com/technology/news.rss',
-    category: 'business',
+    rssUrl: 'https://www.crunchyroll.com/news/rss',
+    category: 'anime',
   },
   {
-    name: 'Reuters Technology',
+    name: 'Anime News Network',
     enabled: true,
     type: 'rss',
-    rssUrl: 'https://www.reutersagency.com/feed/?taxonomy=best-topics&post_type=best',
-    category: 'business',
+    rssUrl: 'https://www.animenewsnetwork.com/news/rss.xml',
+    category: 'anime',
+  },
+  {
+    name: 'MyAnimeList News',
+    enabled: true,
+    type: 'rss',
+    rssUrl: 'https://myanimelist.net/rss/news.xml',
+    category: 'anime',
   },
   
   // AI & Machine Learning

@@ -17,6 +17,7 @@ interface EnvConfig {
   SCRAPE_SCHEDULE: string;
   TREND_SCHEDULE: string;
   NEWSLETTER_SCHEDULE: string;
+  INSIGHTS_SCHEDULE: string;
   RATE_LIMIT_WINDOW_MS: number;
   RATE_LIMIT_MAX_REQUESTS: number;
 }
@@ -53,6 +54,7 @@ const getEnvConfig = (): EnvConfig => {
     EMAIL_FROM: process.env.EMAIL_FROM || 'Feed Frenzy <noreply@feedfrenzy.com>',
     SCRAPE_SCHEDULE: process.env.SCRAPE_SCHEDULE || '0 */4 * * *',
     TREND_SCHEDULE: process.env.TREND_SCHEDULE || '0 2 * * *',
+    INSIGHTS_SCHEDULE: process.env.INSIGHTS_SCHEDULE || '0 3 * * *',
     NEWSLETTER_SCHEDULE: process.env.NEWSLETTER_SCHEDULE || '0 9 * * 0',
     RATE_LIMIT_WINDOW_MS: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10),
     RATE_LIMIT_MAX_REQUESTS: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),

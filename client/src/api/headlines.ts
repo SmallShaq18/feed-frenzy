@@ -23,11 +23,8 @@ export async function fetchHeadlineById(id: string): Promise<Headline> {
 }
 
 /**
- * Fetch headlines grouped by source (for filter sidebar counts).
- */
-/*export async function fetchHeadlinesBySource(): Promise
-  Array<{ source: string; count: number }>
-> {
-  const { data } = await client.get('/headlines/by-source');
-  return data.data;
-};*/
+ * Track a click on an article
+ 
+export async function trackArticleClick(id: string): Promise<void> {
+  await client.post(`/headlines/${id}/track-click`);
+}*/

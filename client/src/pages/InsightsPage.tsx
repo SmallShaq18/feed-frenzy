@@ -12,21 +12,13 @@ export default function InsightsPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <section>
-          <h2 className="font-mono text-[10px] text-muted tracking-widest uppercase mb-3">
-            Featured
-          </h2>
-          <InsightFeed featured />
-        </section>
-
-        <section>
-          <h2 className="font-mono text-[10px] text-muted tracking-widest uppercase mb-3">
-            All insights
-          </h2>
-          <InsightFeed />
-        </section>
-      </div>
+      {/* Single feed showing all insights */}
+      <section>
+        <h2 className="font-mono text-[10px] text-muted tracking-widest uppercase mb-3">
+          All Insights
+        </h2>
+        <InsightFeed />
+      </section>
     </div>
   );
 }

@@ -100,6 +100,19 @@ class HeadlineService {
     }
   }
 
+  async trackClick(id: string): Promise<IHeadline> {
+    const headline = await Headline.findByIdAndUpdate(
+      id,
+      { $inc: { 'metadata.clicks': 1 } },
+      { new: true }
+    );    
+    if (!headline) {
+      throw new AppError('Headline not found', 404);
+    }
+    return headline;
+  }
+
+
   /**
    * Bulk insert headlines (for scraper efficiency)
    * Automatically extracts keywords and sentiment for each

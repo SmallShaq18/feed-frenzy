@@ -16,3 +16,7 @@ export async function createInsight(
   const { data } = await client.post('/insights', payload);
   return data.data;
 }
+
+export async function triggerInsightGeneration(): Promise<void> {
+  await client.post('/trigger-insights');
+}

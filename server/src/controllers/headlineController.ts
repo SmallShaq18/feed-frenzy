@@ -8,7 +8,7 @@ import { ApiResponse } from '../types';
  * Thin layer that calls service methods
  */
 export const getHeadlines = asyncHandler(async (req: Request, res: Response) => {
-  const { page, limit, source, category, keyword } = req.query;
+  const { page, limit, source, category, keyword, sentiment, search } = req.query;
 
   const result = await headlineService.getHeadlines({
     page: page ? parseInt(page as string) : undefined,
@@ -16,6 +16,8 @@ export const getHeadlines = asyncHandler(async (req: Request, res: Response) => 
     source: source as string,
     category: category as string,
     keyword: keyword as string,
+    sentiment: sentiment as any,
+    search: search as string,
   });
 
   const response: ApiResponse = {
@@ -51,4 +53,20 @@ export const createHeadline = asyncHandler(async (req: Request, res: Response) =
   };
 
   res.status(201).json(response);
+});
+
+/**
+ * @route   POST /api/headlines/:id/track-click
+ * @desc    Increment click count for an article
+ */
+
+export const trackClick = asyncHandler(async (req: Request, res: Response) => {
+  const headline = await headlineService.trackClick(req.params.id);
+
+  const response: ApiResponse = {
+    success: true,
+    data: headline,
+  };
+
+  res.status(200).json(response);
 });

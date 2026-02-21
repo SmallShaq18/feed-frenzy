@@ -1,23 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
-import Sidebar from './SideBar';
+import Sidebar from './Sidebar';
 import Footer from './Footer';
 import { useUIStore } from '../../store/useUIStore';
 import clsx from 'clsx';
 
-/**
- * Root layout wrapper.
- * Renders once — Navbar + Sidebar stay mounted across all page navigations.
- * <Outlet /> is where each page renders.
- *
- * Layout:
- * ┌────────────────────────────────┐
- * │         Navbar (fixed top)     │
- * ├──────────┬─────────────────────┤
- * │ Sidebar  │   Page (Outlet)     │
- * │ (fixed)  │   + Footer          │
- * └──────────┴─────────────────────┘
- */
+
 export default function AppShell() {
   const sidebarOpen = useUIStore(s => s.sidebarOpen);
 

@@ -20,7 +20,7 @@ export const getTrends = asyncHandler(async (req: Request, res: Response) => {
 export const getTrendingKeywords = asyncHandler(async (req: Request, res: Response) => {
   const { days } = req.query;
   const keywords = await trendService.getTrendingKeywords(
-    days ? parseInt(days as string) : 7
+    days ? parseInt(days as string) : 3
   );
 
   const response: ApiResponse = {

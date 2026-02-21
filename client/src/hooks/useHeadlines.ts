@@ -1,5 +1,5 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
-import { fetchHeadlines } from '../api/headlines';
+import { useQuery, useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { fetchHeadlineById, fetchHeadlines, } from '../api/headlines';
 import type { HeadlineFilters } from '../types/api';
 
 /**
@@ -33,4 +33,25 @@ export function useInfiniteHeadlines(filters: Omit<HeadlineFilters, 'page'> = {}
     },
     staleTime: 2 * 60 * 1000,
   });
+};
+
+/**
+ * Fetch single headline by ID for detail panel
+ */
+export function useHeadlineDetail(id: string | null) {
+  return useQuery({
+    queryKey: ['headline', id],
+    queryFn: () => fetchHeadlineById(id!),
+    enabled: !!id, // Only fetch when ID is provided
+    staleTime: 5 * 60 * 1000,
+  });
 }
+
+/**
+ * Track article click
+ 
+export function useTrackClick() {
+  return useMutation({
+    mutationFn: (id: string) => trackArticleClick(id),
+  });
+}*/

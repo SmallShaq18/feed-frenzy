@@ -1,11 +1,10 @@
 import logger from '../config/logger';
 
 /**
- * Extracts keywords from text using simple NLP techniques
- * Uses noun phrase extraction and frequency analysis
+ * Enhanced keyword extraction with better filtering and phrase detection
  */
 
-// Common words to ignore (stopwords)
+// Expanded stopwords list
 const STOPWORDS = new Set([
   'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
   'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'been',
@@ -17,8 +16,36 @@ const STOPWORDS = new Set([
   'own', 'same', 'so', 'than', 'too', 'very', 'just', 'about', 'into',
   'through', 'during', 'before', 'after', 'above', 'below', 'between',
   'under', 'again', 'further', 'then', 'once', 'here', 'there', 'also',
-  'new', 'says', 'said', 'one', 'two', 'three', 'first', 'second', 'last'
+  'new', 'says', 'said', 'one', 'two', 'three', 'first', 'second', 'last',
+  'make', 'made', 'way', 'find', 'use', 'get', 'give', 'take', 'see',
+  'come', 'think', 'look', 'want', 'give', 'use', 'work', 'call', 'try',
 ]);
+
+const KNOWN_ENTITIES = new Set([
+  'netflix',
+  'disney',
+  'warner bros',
+  'pixar',
+  'marvel',
+  'a24',
+  'paramount',
+  'universal',
+  'bloomberg',
+]);
+
+// Meta text patterns to filter out (from RSS feeds, HTML, etc.)
+const META_PATTERNS = [
+  /^(discussion|comment|comments|link|url|https?|http|www)/i,
+  /^(posted|submitted|source|via|read|more)/i,
+  /^(article|story|news|report)/i,
+  /^(by|author|written)/i,
+  /^(updated|published|edited)/i,
+  /\d{4}-\d{2}-\d{2}/, // Dates
+  /^\d+$/, // Pure numbers
+  //ADD CUSTOM PATTERN
+  /^(hackernews|reddit|twitter|feed)/i, // Site names
+  /^(rss|xml|json|api)/i, // Technical terms
+];
 
 interface KeywordScore {
   keyword: string;
@@ -32,38 +59,120 @@ interface KeywordScore {
 function cleanText(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^\w\s-]/g, ' ') // Remove punctuation except hyphens
-    .replace(/\s+/g, ' ') // Normalize whitespace
+    .replace(/https?:\/\/\S+/g, ' ') // remove full URLs
+    .replace(/[^\w\s]/g, ' ')        // remove ALL punctuation
+    .replace(/\b\d+\b/g, ' ')        // remove standalone numbers
+    .replace(/\s+/g, ' ')
     .trim();
 }
 
+function removeSubphrases(keywords: string[]): string[] {
+  // Sort longest phrases first
+  const sorted = [...keywords].sort(
+    (a, b) => b.split(' ').length - a.split(' ').length
+  );
+
+  const final: string[] = [];
+
+  for (const candidate of sorted) {
+    const isSubphrase = final.some(existing => {
+      const pattern = new RegExp(`\\b${candidate}\\b`);
+      return pattern.test(existing);
+    });
+
+    if (!isSubphrase) {
+      final.push(candidate);
+    }
+  }
+
+  return final;
+}
+
+
+const DOMAIN_WORDS = new Set([
+  'com', 'net', 'org', 'io', 'tv', 'co',
+  'www', 'amp'
+]);
+
 /**
- * Extract potential keywords (2-3 word phrases and single important words)
+ * Check if a word/phrase should be filtered out
+ */
+function shouldFilterOut(phrase: string): boolean {
+  // Too short (except well-known acronyms)
+  if (phrase.length < 3) return true;
+
+  // Stopword check
+  const words = phrase.split(' ');
+  if (words.length === 1 && STOPWORDS.has(phrase)) return true;
+
+  // Meta pattern check
+  if (META_PATTERNS.some(pattern => pattern.test(phrase))) return true;
+
+  // Domain words (common in URLs, not useful as keywords)
+  if (words.some(w => DOMAIN_WORDS.has(w))) return true;
+
+  // Filter out phrases that are mostly stopwords
+  if (words.length > 1) {
+    const stopwordCount = words.filter(w => STOPWORDS.has(w)).length;
+    const stopwordRatio = stopwordCount / words.length;
+    if (stopwordRatio > 0.5) return true; // More than half are stopwords
+  }
+
+  
+
+  // Filter incomplete phrases (ending with prepositions/conjunctions)
+  const lastWord = words[words.length - 1];
+  const badEndings = ['to', 'of', 'in', 'at', 'by', 'with', 'is', 'are', 'was', 'and', 'or'];
+  if (badEndings.includes(lastWord)) return true;
+
+  return false;
+}
+
+/**
+ * Extract candidate keywords and phrases
  */
 function extractPhrases(text: string): string[] {
-  const words = cleanText(text).split(' ');
+  const cleanedText = cleanText(text);
+  const originalWords = text.split(/\s+/);
+  const words = cleanedText.split(' ').filter(Boolean);
   const phrases: string[] = [];
 
-  // Single words (filtered by stopwords and length)
+  // Single meaningful words (nouns, proper nouns, technical terms)
   words.forEach(word => {
-    if (word.length > 3 && !STOPWORDS.has(word)) {
+    if (shouldFilterOut(word)) return;
+    
+    // Prefer words with capital letters in original (proper nouns)
+    // or words longer than 4 chars
+    if (word.length >= 4) {
       phrases.push(word);
     }
   });
 
-  // Two-word phrases
+  // Two-word phrases (most useful for trends)
   for (let i = 0; i < words.length - 1; i++) {
     const phrase = `${words[i]} ${words[i + 1]}`;
-    if (!STOPWORDS.has(words[i]) && !STOPWORDS.has(words[i + 1])) {
+    
+    // Skip if either word is a stopword
+    if (STOPWORDS.has(words[i]) || STOPWORDS.has(words[i + 1])) continue;
+    
+    if (!shouldFilterOut(phrase)) {
       phrases.push(phrase);
     }
   }
 
-  // Three-word phrases (more selective)
+  // Three-word phrases (only if they look like proper names or technical terms)
   for (let i = 0; i < words.length - 2; i++) {
     const phrase = `${words[i]} ${words[i + 1]} ${words[i + 2]}`;
-    // At least one word must be > 4 chars
-    if (words[i].length > 4 || words[i + 1].length > 4 || words[i + 2].length > 4) {
+    
+    // More selective for 3-word phrases
+    const hasStopword = [words[i], words[i + 1], words[i + 2]].some(w => STOPWORDS.has(w));
+    if (hasStopword) continue;
+    
+    // At least one word must be substantial (6+ chars)
+    const hasSubstantialWord = [words[i], words[i + 1], words[i + 2]].some(w => w.length >= 6);
+    if (!hasSubstantialWord) continue;
+    
+    if (!shouldFilterOut(phrase)) {
       phrases.push(phrase);
     }
   }
@@ -72,27 +181,64 @@ function extractPhrases(text: string): string[] {
 }
 
 /**
- * Calculate TF-IDF-like scores for keywords
+ * Calculate importance scores for keywords
  */
-function scoreKeywords(phrases: string[]): KeywordScore[] {
+function scoreKeywords(phrases: string[], originalTexts: string[]): KeywordScore[] {
   const frequency = new Map<string, number>();
 
-  // Count frequencies
+  // Count frequencies across all texts
   phrases.forEach(phrase => {
     frequency.set(phrase, (frequency.get(phrase) || 0) + 1);
   });
 
-  // Convert to scores (frequency-based with length bonus)
+  // Convert to scores
   const scores: KeywordScore[] = Array.from(frequency.entries()).map(([keyword, freq]) => {
     const wordCount = keyword.split(' ').length;
-    const lengthBonus = wordCount * 0.5; // Multi-word phrases get bonus
-    const score = freq + lengthBonus;
+    
+    // Scoring strategy:
+    // - Higher frequency is better
+    // - 2-word phrases get bonus (they're usually most meaningful)
+    // - 3-word phrases need higher frequency to rank
+    let score = freq;
+    
+    if (wordCount === 2) {
+      score = freq * 1.5; // Boost 2-word phrases
+    } else if (wordCount === 3) {
+      score = freq * 1.2; // Slight boost for 3-word phrases
+    }
+
+    // Entity boost
+const isLikelyEntity = originalTexts.some(text => {
+  return text.includes(
+    keyword
+      .split(' ')
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ')
+  );
+});
+
+if (isLikelyEntity) {
+  score *= 1.4;
+}
+
+if (KNOWN_ENTITIES.has(keyword)) {
+  score *= 2;
+}
+    
+    // Penalize very common single words unless they appear frequently
+    if (wordCount === 1 && freq < 3) {
+      score = freq * 0.5;
+    }
 
     return { keyword, score, frequency: freq };
   });
 
-  // Sort by score descending
-  return scores.sort((a, b) => b.score - a.score);
+  
+
+  // Filter out very low frequency items (noise)
+  return scores
+    .filter(item => item.frequency >= 2 )
+    .sort((a, b) => b.score - a.score);
 }
 
 /**
@@ -104,39 +250,70 @@ export function extractKeywords(text: string, limit: number = 10): string[] {
   }
 
   const phrases = extractPhrases(text);
-  const scored = scoreKeywords(phrases);
+  const scored = scoreKeywords(phrases, [text]);
 
   return scored.slice(0, limit).map(item => item.keyword);
 }
 
 /**
- * Extract keywords from multiple texts (e.g., title + summary)
+ * Extract keywords from multiple texts (better for trend detection)
  */
 export function extractKeywordsFromMultiple(
   texts: string[],
   limit: number = 10
 ): string[] {
-  const combinedText = texts.filter(Boolean).join(' ');
-  return extractKeywords(combinedText, limit);
+  if (texts.length === 0) return [];
+
+  // Extract phrases from all texts
+  const allPhrases: string[] = [];
+  texts.forEach(text => {
+    const phrases = extractPhrases(text);
+    allPhrases.push(...phrases);
+  });
+
+  // Score across the corpus
+  const scored = scoreKeywords(allPhrases, texts);
+
+// 1️⃣ Enforce frequency floor
+const filtered = scored.filter(item => item.frequency >= 2);
+
+// 2️⃣ Convert to plain keyword strings
+const keywordList = filtered.map(item => item.keyword);
+
+// 3️⃣ Remove sub-phrases
+const compressed = removeSubphrases(keywordList);
+
+// 4️⃣ Finally apply limit
+return compressed.slice(0, limit);
 }
 
 /**
- * Analyze keyword trends across multiple documents
+ * Analyze keyword frequency across multiple documents
  */
 export function analyzeKeywordFrequency(
   documents: Array<{ text: string; date: Date }>
 ): Map<string, { count: number; dates: Date[] }> {
   const keywordMap = new Map<string, { count: number; dates: Date[] }>();
 
+  // Extract from all documents first
+  const allTexts = documents.map(d => d.text);
+  const corpusKeywords = extractKeywordsFromMultiple(allTexts, 100); // Top 100 from corpus
+
+  // Now count occurrences in each document
   documents.forEach(doc => {
-    const keywords = extractKeywords(doc.text, 20);
-    keywords.forEach(keyword => {
-      const existing = keywordMap.get(keyword);
-      if (existing) {
-        existing.count++;
-        existing.dates.push(doc.date);
-      } else {
-        keywordMap.set(keyword, { count: 1, dates: [doc.date] });
+    const docPhrases = extractPhrases(doc.text);
+    const docPhrasesSet = new Set(docPhrases);
+
+    // Only track keywords that made it into the top corpus keywords
+    corpusKeywords.forEach(keyword => {
+      if (docPhrasesSet.has(keyword)) {
+        const existing = keywordMap.get(keyword);
+        if (existing) {
+          existing.count++;
+          existing.dates.push(doc.date);
+        } else {
+          keywordMap.set(keyword, { count: 1, dates: [doc.date] });
+        }
       }
     });
   });
@@ -145,7 +322,7 @@ export function analyzeKeywordFrequency(
 }
 
 /**
- * Find co-occurring keywords (keywords that appear together)
+ * Find co-occurring keywords
  */
 export function findCooccurringKeywords(
   documents: string[],
@@ -154,7 +331,7 @@ export function findCooccurringKeywords(
   const cooccurrenceMap = new Map<string, Map<string, number>>();
 
   documents.forEach(doc => {
-    const keywords = extractKeywords(doc, 15);
+    const keywords = extractKeywords(doc, 20);
 
     // For each pair of keywords in this document
     for (let i = 0; i < keywords.length; i++) {
@@ -171,8 +348,11 @@ export function findCooccurringKeywords(
       }
     }
   });
+  
 
-  // Convert to final format (only keep keywords with min co-occurrence)
+  
+
+  // Convert to final format
   const result = new Map<string, string[]>();
   cooccurrenceMap.forEach((relatedMap, keyword) => {
     const related = Array.from(relatedMap.entries())
@@ -185,7 +365,10 @@ export function findCooccurringKeywords(
     }
   });
 
+  
+
   return result;
+
 }
 
-logger.info('✅ Keyword extractor loaded');
+logger.info('✅ Keyword extractor loaded (enhanced)');

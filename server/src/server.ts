@@ -11,6 +11,7 @@ import routes from './routes';
 import { startScrapeJob } from './jobs/scrapeJob';
 import { startTrendJob } from './jobs/trendJob';
 import { startNewsletterJob } from './jobs/newsletterJob';
+import { startInsightJob } from './jobs/insightJob';
 
 const app: Application = express();
 
@@ -76,6 +77,7 @@ const startServer = async () => {
     startScrapeJob();
     startTrendJob();
     startNewsletterJob();
+    startInsightJob();
 
     // Start Express server
     app.listen(env.PORT, () => {

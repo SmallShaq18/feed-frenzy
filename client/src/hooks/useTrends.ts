@@ -9,7 +9,7 @@ export function useTrends(status?: 'rising' | 'peak' | 'declining') {
   });
 }
 
-export function useTrendingKeywords(days = 7) {
+export function useTrendingKeywords(days = 3) {
   return useQuery({
     queryKey: ['trending-keywords', days],
     queryFn: () => fetchTrendingKeywords(days),
