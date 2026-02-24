@@ -1,13 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-/**
- * UI store — handles layout and visual preferences.
- * sidebarOpen and activeModal are session-only.
- * theme is persisted so the user's preference sticks.
- */
-
-type Theme = 'dark' | 'light'; // Dark is default, light is future
+type Theme = 'dark' | 'light';
 type ModalId = 'subscribe' | 'login' | 'article-preview' | null;
 
 interface UIStore {
@@ -17,13 +11,14 @@ interface UIStore {
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
   setTheme: (theme: Theme) => void;
+  toggleTheme: () => void; // NEW
   openModal: (id: ModalId) => void;
   closeModal: () => void;
 }
 
 export const useUIStore = create<UIStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       sidebarOpen: true,
       theme: 'dark',
       activeModal: null,
@@ -35,13 +30,17 @@ export const useUIStore = create<UIStore>()(
 
       setTheme: (theme) => set({ theme }),
 
+      toggleTheme: () => {
+        const newTheme = get().theme === 'dark' ? 'light' : 'dark';
+        set({ theme: newTheme });
+      },
+
       openModal: (id) => set({ activeModal: id }),
 
       closeModal: () => set({ activeModal: null }),
     }),
     {
       name: 'feed-frenzy-ui',
-      // Only persist theme preference, not transient layout state
       partialize: (state) => ({ theme: state.theme }),
     }
   )

@@ -23,6 +23,13 @@ export interface PaginatedResponse<T> {
 }
 
 /**
+ * Sort and filter types
+ */
+export type SortBy = 'recent' | 'trending' | 'relevant';
+export type DateRange = 'today' | 'week' | 'month' | 'all';
+
+
+/**
  * Reusable filter shape passed to headlines queries.
  */
 export interface HeadlineFilters {
@@ -33,4 +40,8 @@ export interface HeadlineFilters {
   keyword?: string;
   sentiment?: 'positive' | 'neutral' | 'negative';
   search?: string;
+  sortBy?: SortBy;
+  dateRange?: DateRange; 
+  minViews?: number;  
+  hasImage?: boolean; 
 }

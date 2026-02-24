@@ -13,10 +13,10 @@ export async function unsubscribeFromNewsletter(token: string): Promise<void> {
 }
 
 export async function sendTestNewsletter(email: string): Promise<void> {
+  // This calls the manual newsletter send with test content
   await client.post('/newsletter/test', { email });
 }
 
-// NEW
 export async function getSubscribers(): Promise<{
   subscribers: Subscriber[];
   total: number;

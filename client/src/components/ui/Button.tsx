@@ -22,9 +22,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    'bg-yellow text-bg font-bold hover:bg-yellow/90 active:scale-[0.97] shadow-glow-yellow',
+    'bg-purple-500 text-bg font-bold hover:bg-purple-400 active:scale-[0.97] shadow-glow-yellow/50',
   secondary:
-    'bg-transparent text-primary border border-border-loud hover:border-yellow hover:text-yellow',
+    'bg-transparent text-primary border border-border-loud hover:border-purple hover:text-purple',
   ghost:
     'bg-transparent text-secondary hover:text-primary hover:bg-surface-2',
   danger:

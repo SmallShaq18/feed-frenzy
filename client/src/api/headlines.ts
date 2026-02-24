@@ -24,7 +24,8 @@ export async function fetchHeadlineById(id: string): Promise<Headline> {
 
 /**
  * Track a click on an article
+ * */
  
 export async function trackArticleClick(id: string): Promise<void> {
   await client.post(`/headlines/${id}/track-click`);
-}*/
+}

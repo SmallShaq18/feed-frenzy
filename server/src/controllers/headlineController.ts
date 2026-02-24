@@ -8,7 +8,8 @@ import { ApiResponse } from '../types';
  * Thin layer that calls service methods
  */
 export const getHeadlines = asyncHandler(async (req: Request, res: Response) => {
-  const { page, limit, source, category, keyword, sentiment, search } = req.query;
+  const { page, limit, source, category, keyword, sentiment, search, sortBy,      // NEW
+    dateRange,  minViews, hasImage, } = req.query;
 
   const result = await headlineService.getHeadlines({
     page: page ? parseInt(page as string) : undefined,
@@ -18,6 +19,10 @@ export const getHeadlines = asyncHandler(async (req: Request, res: Response) => 
     keyword: keyword as string,
     sentiment: sentiment as any,
     search: search as string,
+    sortBy: sortBy as 'recent' | 'trending' | 'relevant',           // NEW
+    dateRange: dateRange as 'today' | 'week' | 'month' | 'all',     // NEW
+    inViews: minViews ? parseInt(minViews as string) : undefined,  // NEW
+    hasImage: hasImage === 'true', 
   });
 
   const response: ApiResponse = {

@@ -1,6 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import AppRouter from './router';
+import { useUIStore } from './store/useUIStore';
+import { useEffect } from 'react';
 
 /**
  * App.tsx is just providers.
@@ -20,6 +22,14 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
+
+  const theme = useUIStore(s => s.theme);
+
+  // Apply theme to document root
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+  
   return (
     <QueryClientProvider client={queryClient}>
       <AppRouter />

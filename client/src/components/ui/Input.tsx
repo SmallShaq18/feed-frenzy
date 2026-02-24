@@ -38,7 +38,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               'text-sm text-primary placeholder:text-muted',
               'font-ui px-3 py-2',
               'transition-all duration-fast',
-              'focus:outline-none focus:border-yellow focus:shadow-glow-yellow',
+              'focus:outline-none focus:border-violet-600 focus:shadow-glow-violet',
               'disabled:opacity-40 disabled:cursor-not-allowed',
               icon && 'pl-9',
               trailing && 'pr-9',

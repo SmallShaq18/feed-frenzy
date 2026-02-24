@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================
-   FEED FRENZY — DESIGN TOKENS
-   All colors, fonts, and spacing live here.
-   Components reference variables, never raw values.
-   ============================================ */
-
 
 
 @layer base {
@@ -73,6 +67,47 @@
                          0 8px 32px rgba(0, 0, 0, 0.4);
     --shadow-glow-yellow: 0 0 20px rgba(255, 229, 0, 0.15);
     --shadow-glow-cyan:   0 0 20px rgba(0, 229, 255, 0.15);
+  }
+
+  /* Light theme */
+  [data-theme='light'] {
+    --color-bg:          #FFFFFF;
+    --color-surface:     #F5F5F5;
+    --color-surface-2:   #EBEBEB;
+    --color-border:      #D4D4D4;
+    --color-border-loud: #A3A3A3;
+
+    --color-text-primary:   #0D0D0D;
+    --color-text-secondary: #525252;
+    --color-text-muted:     #A3A3A3;
+
+    /* Accents stay the same but adjust for visibility */
+    --color-yellow:   #F59E0B;
+    --color-coral:    #DC2626;
+    --color-cyan:     #0891B2;
+    --color-green:    #10B981;
+
+    /* Categories - adjusted for light bg */
+    --color-cat-tech:          #0891B2;
+    --color-cat-ai:            #9333EA;
+    --color-cat-entertainment: #DB2777;
+    --color-cat-anime:         #EC4899;
+    --color-cat-crypto:        #F59E0B;
+    --color-cat-startups:      #10B981;
+
+    /* Sentiment colors */
+    --color-sentiment-positive: #10B981;
+    --color-sentiment-neutral:  #737373;
+    --color-sentiment-negative: #DC2626;
+
+    /* Trend status */
+    --color-trend-rising:   #10B981;
+    --color-trend-peak:     #F59E0B;
+    --color-trend-declining:#DC2626;
+
+    /* Shadows for light mode */
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-card-hover: 0 4px 20px rgba(0, 0, 0, 0.15);
   }
 
   /* ============================================

@@ -1,3 +1,68 @@
+/*import { ExternalLink, Bookmark, BookmarkCheck, Zap } from 'lucide-react';
+import clsx from 'clsx';
+import Badge from '../ui/Badge';
+import type { Headline } from '../../types/index';
+import { useBookmarkStore } from '../../store/useBookmarkStore';
+import { formatRelativeDate } from '../../utils/formatDate';
+import { getCategoryColor, getSentimentColor, isFreshArticle } from '../../utils/categoryColors';
+import { truncateText } from '../../utils/truncateText';
+
+export default function HeadlineCard({ headline, index = 0, onCardClick }: { headline: Headline; index?: number; onCardClick?: (id: string) => void }) {
+  const { add, remove, isBookmarked } = useBookmarkStore();
+  const bookmarked = isBookmarked(headline._id);
+  const isFresh = isFreshArticle(headline.publishedAt);
+  const accentColor = getCategoryColor(headline.source);
+
+  return (
+    <div 
+      onClick={() => onCardClick?.(headline._id)}
+      className={clsx(
+        "group relative flex flex-col md:flex-row gap-6 p-6 border-b border-border bg-surface transition-all cursor-pointer",
+        "hover:bg-primary/[0.02] hover:pl-8"
+      )}
+    >
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-primary transition-all" style={{ backgroundColor: accentColor }} />
+      
+      {headline.imageUrl && (
+        <div className="w-full md:w-32 h-32 md:h-24 overflow-hidden border border-border bg-bg flex-shrink-0">
+          <img src={headline.imageUrl} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-110 group-hover:scale-100" alt="" />
+        </div>
+      )}
+
+      <div className="flex-1 space-y-2">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary" style={{ color: accentColor }}>
+            {headline.source}
+          </span>
+          <div className="h-3 w-px bg-border" />
+          <span className="font-mono text-[10px] text-muted uppercase">{formatRelativeDate(headline.publishedAt)}</span>
+          {isFresh && <Zap size={10} className="text-yellow fill-yellow" />}
+        </div>
+
+        <h3 className="font-display text-xl uppercase italic tracking-tight group-hover:text-primary transition-colors">
+          {truncateText(headline.title, 100)}
+        </h3>
+
+        <div className="flex items-center gap-4 pt-2">
+          {headline.category && <Badge label={headline.category} variant="subtle" size="sm" />}
+          <div className="flex gap-2">
+            {headline.keywords.slice(0, 2).map(kw => (
+              <span key={kw} className="font-mono text-[9px] text-muted uppercase tracking-tighter">#{kw}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <button 
+        onClick={(e) => { e.stopPropagation(); bookmarked ? remove(headline._id) : add(headline); }}
+        className={clsx("self-start p-2 transition-all", bookmarked ? "text-yellow" : "text-muted hover:text-primary")}
+      >
+        {bookmarked ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
+      </button>
+    </div>
+  );
+}*/
+
 import { ExternalLink, Bookmark, BookmarkCheck, Zap } from 'lucide-react';
 import clsx from 'clsx';
 import Badge from '../ui/Badge';
@@ -89,13 +154,17 @@ export default function HeadlineCard({
         {/* Content */}
         <div className="flex-1 min-w-0 flex flex-col gap-2">
           {/* Meta row */}
+
+          
+          
+        
           <div className="flex items-center gap-2 flex-wrap">
-            <span
-              className="font-mono text-[10px] tracking-wider uppercase font-semibold transition-colors duration-fast"
-              style={{ color: sourceColor ?? 'var(--color-text-muted)' }}
-            >
-              {headline.source}
-            </span>
+            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">
+            {headline.source}
+          </span>
+          <div className="h-3 w-px bg-border" />
+          <span className="font-mono text-[10px] text-muted uppercase">{formatRelativeDate(headline.publishedAt)}</span>
+          {isFresh && <Zap size={10} className="text-yellow fill-yellow" />}
 
             {headline.category && (
               <Badge
@@ -116,9 +185,9 @@ export default function HeadlineCard({
 
           {/* Title - UPDATED: removed link, card is clickable */}
           <div className="group/link flex items-start gap-1.5">
-            <h3 className="font-ui font-semibold text-sm text-primary leading-snug group-hover:text-yellow transition-all duration-fast">
-              {truncateText(headline.title, 120)}
-            </h3>
+            <h3 className="font-display text-xl uppercase italic tracking-tight group-hover:text-primary transition-colors">
+          {truncateText(headline.title, 100)}
+        </h3>
             <ExternalLink
               size={12}
               className="flex-shrink-0 mt-0.5 text-muted opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-fast"
@@ -135,32 +204,11 @@ export default function HeadlineCard({
           {/* Bottom row */}
           <div className="flex items-center justify-between gap-2 mt-auto pt-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <time
-                dateTime={headline.publishedAt}
-                className={clsx(
-                  'font-mono text-[10px] transition-all duration-fast',
-                  isFresh
-                    ? 'text-yellow font-semibold'
-                    : 'text-muted group-hover:text-secondary'
-                )}
-              >
-                {formatRelativeDate(headline.publishedAt)}
-              </time>
+              
 
-              {headline.keywords.slice(0, 3).map((keyword, i) => (
-                <span
-                  key={keyword}
-                  className={clsx(
-                    'font-mono text-[9px] bg-surface-2 px-1.5 py-0.5 rounded-sm',
-                    'transition-all duration-fast',
-                    'opacity-60 group-hover:opacity-100',
-                    'text-muted group-hover:text-secondary group-hover:bg-border'
-                  )}
-                  style={{ transitionDelay: `${i * 30}ms` }}
-                >
-                  {keyword}
-                </span>
-              ))}
+              {headline.keywords.slice(0, 2).map(kw => (
+              <span key={kw} className="font-mono text-[9px] text-muted uppercase tracking-tighter">#{kw}</span>
+            ))}
             </div>
 
             {/* Bookmark button */}
@@ -171,7 +219,7 @@ export default function HeadlineCard({
                 'p-1.5 rounded-sm transition-all duration-fast flex-shrink-0',
                 'hover:scale-110 active:scale-95',
                 bookmarked
-                  ? 'text-yellow bg-yellow/10 opacity-100'
+                  ? 'text-purple-500 bg-yellow/10 opacity-100'
                   : 'text-muted hover:text-primary hover:bg-surface-2 opacity-0 group-hover:opacity-100'
               )}
             >
@@ -188,146 +236,3 @@ export default function HeadlineCard({
   );
 }
 
-/*import { ExternalLink, Bookmark, BookmarkCheck } from 'lucide-react';
-import clsx from 'clsx';
-import Badge from '../ui/Badge';
-import Card from '../ui/Card';
-import type { Headline } from '../../types/index';
-import { useBookmarkStore } from '../../store/useBookmarkStore';
-import { formatRelativeDate } from '../../utils/formatDate';
-import { getCategoryColor, getSentimentColor } from '../../utils/categoryColors';
-import { truncateText } from '../../utils/truncateText';
-
-interface HeadlineCardProps {
-  headline: Headline;
-  index?: number; // For stagger animation
-}
-
-export default function HeadlineCard({ headline, index = 0 }: HeadlineCardProps) {
-  const { add, remove, isBookmarked } = useBookmarkStore();
-  const bookmarked = isBookmarked(headline._id);
-
-  const staggerClass = [
-    'stagger-1', 'stagger-2', 'stagger-3', 'stagger-4', 'stagger-5',
-  ][index % 5];
-
-  function handleBookmark(e: React.MouseEvent) {
-    // Stop propagation so clicking bookmark doesn't open the article
-    e.preventDefault();
-    e.stopPropagation();
-    bookmarked ? remove(headline._id) : add(headline);
-  }
-
-  return (
-    <Card
-      hoverable
-      className={clsx('group animate-card-enter opacity-0', staggerClass)}
-    >
-      <article className="flex gap-4">
-        {/* Article image — only rendered if imageUrl exists *
-        {headline.imageUrl && (
-          <div className="flex-shrink-0 w-20 h-20 rounded-sm overflow-hidden bg-surface-2">
-            <img
-              src={headline.imageUrl}
-              alt=""
-              className="w-full h-full object-cover transition-transform duration-slow group-hover:scale-105"
-              loading="lazy"
-              onError={e => {
-                // Hide broken images cleanly
-                (e.currentTarget as HTMLImageElement).parentElement!.style.display = 'none';
-              }}
-            />
-          </div>
-        )}
-
-        {/* Content *
-        <div className="flex-1 min-w-0 flex flex-col gap-2">
-          {/* Meta row: source + category + sentiment *
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mono text-[10px] text-muted tracking-wider uppercase">
-              {headline.source}
-            </span>
-
-            {headline.category && (
-              <Badge
-                label={headline.category}
-                color={getCategoryColor(headline.category)}
-                variant="subtle"
-              />
-            )}
-
-            {headline.sentiment && (
-              <Badge
-                label={headline.sentiment}
-                color={getSentimentColor(headline.sentiment)}
-                variant="subtle"
-              />
-            )}
-          </div>
-
-          {/* Title *
-          
-          <a href={headline.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group/link flex items-start gap-1" >
-            <h3 className="font-ui font-semibold text-sm text-primary leading-snug group-hover/link:text-yellow transition-colors duration-fast">
-              {truncateText(headline.title, 120)}
-            </h3>
-            <ExternalLink
-              size={11}
-              className="flex-shrink-0 mt-0.5 text-muted opacity-0 group-hover/link:opacity-100 transition-opacity"
-            />
-          </a>
-
-          {/* Summary *
-          {headline.summary && (
-            <p className="text-xs text-secondary leading-relaxed line-clamp-2">
-              {headline.summary}
-            </p>
-          )}
-
-          {/* Bottom row: date + keywords + bookmark *
-          <div className="flex items-center justify-between gap-2 mt-auto pt-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              {/* Timestamp *
-              <time
-                dateTime={headline.publishedAt}
-                className="font-mono text-[10px] text-muted"
-              >
-                {formatRelativeDate(headline.publishedAt)}
-              </time>
-
-              {/* Top keywords *
-              {headline.keywords.slice(0, 3).map(keyword => (
-                <span
-                  key={keyword}
-                  className="font-mono text-[9px] text-muted bg-surface-2 px-1.5 py-0.5 rounded-sm"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
-
-            {/* Bookmark toggle *
-            <button
-              onClick={handleBookmark}
-              aria-label={bookmarked ? 'Remove bookmark' : 'Bookmark article'}
-              className={clsx(
-                'p-1 rounded-sm transition-all duration-fast flex-shrink-0',
-                bookmarked
-                  ? 'text-yellow'
-                  : 'text-muted hover:text-primary opacity-0 group-hover:opacity-100'
-              )}
-            >
-              {bookmarked
-                ? <BookmarkCheck size={14} />
-                : <Bookmark size={14} />
-              }
-            </button>
-          </div>
-        </div>
-      </article>
-    </Card>
-  );
-}*/

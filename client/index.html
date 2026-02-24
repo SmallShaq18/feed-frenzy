@@ -4,12 +4,64 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>react-ts</title>
+    <title>Feed Frenzy - News Aggregation with AI Insights</title>
+    <meta name="description" content="Real-time news aggregation from 17+ sources. AI-powered trend detection, sentiment analysis, and weekly newsletters." />
+  
+  <!-- Open Graph (social sharing) -->
+  <meta property="og:title" content="Feed Frenzy" />
+  <meta property="og:description" content="The internet is talking. We're just keeping score." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://feedfrenzy.com" />
+  <meta property="og:image" content="https://feedfrenzy.com/og-image.png" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Feed Frenzy" />
+  <meta name="twitter:description" content="The internet is talking. We're just keeping score." />
+  <meta name="twitter:image" content="https://feedfrenzy.com/og-image.png" />
+    <style>
+      #splash {
+        position: fixed;
+        inset: 0;
+        background: #0D0D0D;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      #splash-content {
+        text-align: center;
+      }
+      #splash-logo {
+        font-family: 'Courier New', monospace;
+        font-size: 48px;
+        font-weight: 900;
+        letter-spacing: 8px;
+        color: #FFE500;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+    </style>
   </head>
   <body>
+    <div id="splash">
+      <div id="splash-content">
+        <div id="splash-logo">FEED FRENZY</div>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Hide splash once React loads
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          document.getElementById('splash').style.display = 'none';
+        }, 500);
+      });
+    </script>
   </body>
 </html>

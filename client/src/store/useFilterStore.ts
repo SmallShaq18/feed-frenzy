@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { SortBy, DateRange } from '../types/api';
 
 /**
  * Filter store — drives the headline feed query.
@@ -15,6 +16,10 @@ interface FilterState {
   category: string;
   sentiment: Sentiment | '';
   searchQuery: string;
+  sortBy: SortBy;
+  dateRange: DateRange;
+  minViews: number;
+  hasImage: boolean;
 
   setFilter: <K extends keyof FilterState>(
     key: K,
@@ -29,6 +34,10 @@ const DEFAULT_FILTERS = {
   category: '',
   sentiment: '' as const,
   searchQuery: '',
+  sortBy: 'recent' as SortBy,
+  dateRange: 'all' as DateRange,
+  minViews: 0,
+  hasImage: false,
 };
 
 export const useFilterStore = create<FilterState>()((set, get) => ({
@@ -39,7 +48,7 @@ export const useFilterStore = create<FilterState>()((set, get) => ({
   clearFilters: () => set(DEFAULT_FILTERS),
 
   hasActiveFilters: () => {
-    const { source, category, sentiment, searchQuery } = get();
-    return !!(source || category || sentiment || searchQuery);
+    const { source, category, sentiment, searchQuery, sortBy, dateRange, minViews, hasImage } = get();
+    return !!(source || category || sentiment || searchQuery || sortBy !== 'recent' || dateRange !== 'all' || minViews > 0 || hasImage);
   },
 }));

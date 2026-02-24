@@ -20,6 +20,7 @@ interface EnvConfig {
   INSIGHTS_SCHEDULE: string;
   RATE_LIMIT_WINDOW_MS: number;
   RATE_LIMIT_MAX_REQUESTS: number;
+  FRONTEND_URL?: string;
 }
 
 /**
@@ -51,6 +52,7 @@ const getEnvConfig = (): EnvConfig => {
     SMTP_PORT: parseInt(process.env.SMTP_PORT || '587', 10),
     SMTP_USER: process.env.SMTP_USER!,
     SMTP_PASS: process.env.SMTP_PASS!,
+    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
     EMAIL_FROM: process.env.EMAIL_FROM || 'Feed Frenzy <noreply@feedfrenzy.com>',
     SCRAPE_SCHEDULE: process.env.SCRAPE_SCHEDULE || '0 */4 * * *',
     TREND_SCHEDULE: process.env.TREND_SCHEDULE || '0 2 * * *',

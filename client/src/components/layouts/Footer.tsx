@@ -8,8 +8,8 @@ export default function Footer() {
 
         {/* Brand */}
         <div className="flex items-center gap-2">
-          <Zap size={14} className="text-yellow" fill="currentColor" />
-          <span className="font-display text-sm tracking-widest text-muted">
+          <Zap size={14} className="text-purple-600" fill="currentColor" />
+          <span className="font-display text-sm tracking-widest">
             FEED FRENZY
           </span>
         </div>
@@ -29,7 +29,7 @@ export default function Footer() {
             <Link
               key={link.to}
               to={link.to}
-              className="font-mono text-[10px] text-muted hover:text-yellow transition-colors tracking-widest uppercase"
+              className="font-mono text-[10px] hover:text-purple-500 transition-colors tracking-widest uppercase"
             >
               {link.label}
             </Link>

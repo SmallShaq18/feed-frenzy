@@ -17,6 +17,9 @@ const NewsletterPage  = lazy(() => import('../pages/NewsletterPage'));
 const LoginPage       = lazy(() => import('../pages/LoginPage'));
 const AdminPage       = lazy(() => import('../pages/AdminPage'));
 const NotFoundPage    = lazy(() => import('../pages/NotFoundPage'));
+const UnsubscribePage = lazy(() => import('../pages/UnsubscribePage'));
+const WeeklyRecapPage = lazy(() => import('../pages/WeeklyRecap'));
+
 
 // Consistent loading fallback used by every lazy page
 const PageLoader = () => (
@@ -37,6 +40,8 @@ export default function AppRouter() {
             <Route path="/insights"   element={<InsightsPage />} />
             <Route path="/bookmarks"  element={<BookmarksPage />} />
             <Route path="/newsletter" element={<NewsletterPage />} />
+            <Route path="/recap" element={<WeeklyRecapPage />} />
+            <Route path="newsletter/unsubscribe/:token" element={<UnsubscribePage />} />
             <Route path="/login"      element={<LoginPage />} />
 
             {/* Protected admin routes */}

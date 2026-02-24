@@ -20,6 +20,10 @@ class HeadlineService {
     keyword?: string;
     search?: string;
     sentiment?: 'positive' | 'neutral' | 'negative';
+    sortBy?: 'recent' | 'trending' | 'relevant'; // NEW
+    dateRange?: 'today' | 'week' | 'month' | 'all'; // NEW
+    inViews?: number; // NEW
+    hasImage?: boolean; // NEW
   }) {
     const page = filters.page || 1;
     const limit = filters.limit || 20;
@@ -37,6 +41,32 @@ class HeadlineService {
       { summary: { $regex: filters.search, $options: 'i' } },
       { keywords: { $in: [new RegExp(filters.search, 'i')] } },
     ];
+  };
+  if (filters.dateRange && filters.dateRange !== 'all') {
+    const now = new Date();
+    const dateMap = {
+      today: new Date(now.setHours(0, 0, 0, 0)),
+      week: new Date(now.setDate(now.getDate() - 7)),
+      month: new Date(now.setMonth(now.getMonth() - 1)),
+    };
+    query.publishedAt = { $gte: dateMap[filters.dateRange] };
+  }
+
+  if (filters.inViews && filters.inViews > 0) {
+    query['metadata.clicks'] = { $gte: filters.inViews };
+  }
+
+  if (filters.hasImage) {
+    query.imageUrl = { $exists: true, $ne: null };
+  }
+
+  let sort: any = { publishedAt: -1 }; // Default: recent
+  
+  if (filters.sortBy === 'trending') {
+    sort = { 'metadata.clicks': -1, publishedAt: -1 };
+  } else if (filters.sortBy === 'relevant' && filters.search) {
+    // If searching, sort by relevance (text score)
+    sort = { score: { $meta: 'textScore' } };
   }
 
     const [headlines, total] = await Promise.all([
