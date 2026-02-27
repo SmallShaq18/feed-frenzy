@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+/*import clsx from 'clsx';
 
 type SpinnerSize = 'sm' | 'md' | 'lg';
 
@@ -19,15 +19,15 @@ export default function Spinner({ size = 'md', className }: { size?: SpinnerSize
           sizeMap[size]
         )}
       />
-      {/* Central blinking dot for the LG size to look like a scanner */}
+      {/* Central blinking dot for the LG size to look like a scanner *
       {size === 'lg' && (
         <span className="w-1 h-1 bg-yellow rounded-full animate-pulse" />
       )}
     </div>
   );
-}
+}*/
 
-/*import clsx from 'clsx';
+import clsx from 'clsx';
 
 type SpinnerSize = 'sm' | 'md' | 'lg';
 
@@ -54,4 +54,4 @@ export default function Spinner({ size = 'md', className }: SpinnerProps) {
       )}
     />
   );
-}*/
+}

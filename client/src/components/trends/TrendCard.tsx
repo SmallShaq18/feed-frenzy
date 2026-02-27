@@ -6,6 +6,8 @@ import { formatRelativeDate } from '../../utils/formatDate';
 import { useFilterStore } from '../../store/useFilterStore';
 import { getTrendStatusColor } from '../../utils/categoryColors';
 import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
+
 
 interface TrendCardProps {
   trend: Trend;
@@ -18,10 +20,13 @@ export default function TrendCard({ trend, index = 0, onKeywordClick }: TrendCar
 
   const staggerClass = ['stagger-1','stagger-2','stagger-3','stagger-4','stagger-5'][index % 5];
   const statusColor = getTrendStatusColor(trend.status);
+  const navigate = useNavigate();
+
 
   function handleKeywordClick() {
     setFilter('searchQuery', trend.keyword);
     onKeywordClick?.(trend.keyword);
+    navigate('/');
   }
 
   // Calculate trend strength (0-100)
@@ -66,11 +71,11 @@ export default function TrendCard({ trend, index = 0, onKeywordClick }: TrendCar
                 className="w-2 h-2 rounded-full animate-pulse"
                 style={{ backgroundColor: statusColor }}
               />
-              <span className="font-mono text-[10px] text-muted tracking-widest uppercase">
+              <span className="font-mono text-[10px] tracking-widest uppercase">
                 Keyword
               </span>
             </div>
-            <h3 className="font-display text-3xl tracking-wide text-primary hover:text-yellow transition-all duration-fast text-left leading-none group-hover/btn:tracking-wider">
+            <h3 className="font-display text-3xl tracking-wide text-primary hover:text-purple-500 transition-all duration-fast text-left leading-none group-hover/btn:tracking-wider">
               {trend.keyword.toUpperCase()}
             </h3>
           </button>
@@ -80,7 +85,7 @@ export default function TrendCard({ trend, index = 0, onKeywordClick }: TrendCar
         {/* Visual strength indicator */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[9px] text-muted tracking-wider uppercase">
+            <span className="font-mono text-[9px] tracking-wider uppercase">
               Trend Strength
             </span>
             <span className="font-mono text-[9px] text-secondary font-semibold">
@@ -107,11 +112,11 @@ export default function TrendCard({ trend, index = 0, onKeywordClick }: TrendCar
             <div className="relative p-3 rounded-md border border-transparent group-hover/stat:border-border transition-all duration-fast">
               <div className="flex items-center gap-1.5 mb-2">
                 <Activity size={12} className="text-cyan" />
-                <p className="font-mono text-[9px] text-muted tracking-wider uppercase">
+                <p className="font-mono text-[9px] tracking-wider uppercase">
                   Mentions
                 </p>
               </div>
-              <p className="font-mono text-2xl font-bold text-primary tabular-nums">
+              <p className="font-mono text-2xl font-bold text-center text-primary tabular-nums">
                 {trend.count}
               </p>
             </div>
@@ -122,12 +127,12 @@ export default function TrendCard({ trend, index = 0, onKeywordClick }: TrendCar
             <div className="absolute inset-0 bg-yellow/5 rounded-md opacity-0 group-hover/stat:opacity-100 transition-opacity duration-fast" />
             <div className="relative p-3 rounded-md border border-transparent group-hover/stat:border-yellow/30 transition-all duration-fast">
               <div className="flex items-center gap-1.5 mb-2">
-                <TrendingUp size={12} className="text-yellow" />
-                <p className="font-mono text-[9px] text-muted tracking-wider uppercase">
+                <TrendingUp size={15} className="text-purple-500" />
+                <p className="font-mono text-[9px]  tracking-wider uppercase">
                   Velocity
                 </p>
               </div>
-              <p className="font-mono text-2xl font-bold text-yellow tabular-nums">
+              <p className="font-mono text-1xl font-bold text-purple-500 tabular-nums">
                 {trend.velocity.toFixed(1)}
                 <span className="text-xs text-muted font-normal ml-1">/day</span>
               </p>
@@ -136,11 +141,11 @@ export default function TrendCard({ trend, index = 0, onKeywordClick }: TrendCar
 
           {/* First Seen */}
           <div className="relative group/stat">
-            <div className="absolute inset-0 bg-surface-2 rounded-md opacity-0 group-hover/stat:opacity-100 transition-opacity duration-fast" />
+            
             <div className="relative p-3 rounded-md border border-transparent group-hover/stat:border-border transition-all duration-fast">
               <div className="flex items-center gap-1.5 mb-2">
                 <Clock size={12} className="text-green" />
-                <p className="font-mono text-[9px] text-muted tracking-wider uppercase">
+                <p className="font-mono text-[9px] tracking-wider uppercase">
                   First Seen
                 </p>
               </div>

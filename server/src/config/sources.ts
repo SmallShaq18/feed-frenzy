@@ -168,12 +168,40 @@ export const NEWS_SOURCES: NewsSource[] = [
 
   // Startups & Venture Capital
   {
-    name: 'Product Hunt',
+    name: 'TechCrunch Startups',
     enabled: true,
     type: 'rss',
-    rssUrl: 'https://www.producthunt.com/feed',
+    rssUrl: 'https://techcrunch.com/category/startups/feed/',
     category: 'startups',
   },
+  {
+    name: 'TechCrunch Venture',
+    enabled: true,
+    type: 'rss',
+    rssUrl: 'https://techcrunch.com/category/venture/feed/',
+    category: 'startups',
+  },
+  {
+    name: 'VentureBeat',
+    enabled: true,
+    type: 'rss',
+    rssUrl: 'https://venturebeat.com/feed/',
+    category: 'startups',
+  },
+  {
+    name: 'Crunchbase News',
+    enabled: true,
+    type: 'rss',
+    rssUrl: 'https://news.crunchbase.com/feed/',
+    category: 'startups',
+  },
+  {
+    name: 'Entrepreneur Startups',
+    enabled: true,
+    type: 'rss',
+    rssUrl: 'https://www.entrepreneur.com/latest.rss',
+    category: 'startups',
+  }
 ];
 
 /**

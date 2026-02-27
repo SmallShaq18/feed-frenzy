@@ -16,7 +16,7 @@ const TYPE_THEMES = {
   pattern: 'border-cyan text-cyan bg-cyan/5',
   anomaly: 'border-coral text-coral bg-coral/5',
   prediction: 'border-cat-ai text-cat-ai bg-cat-ai/5',
-  summary: 'border-yellow text-yellow bg-yellow/5',
+  summary: 'border-purple text-purple bg-purple/5',
 };
 
 export default function InsightDetailPanel({ insightId, onClose }: { insightId: string | null; onClose: () => void }) {
@@ -86,7 +86,7 @@ export default function InsightDetailPanel({ insightId, onClose }: { insightId: 
             <div className="flex-1 overflow-y-auto p-6 space-y-8">
               <section>
                 <div className="flex items-center gap-2 mb-3 text-primary">
-                  <Lightbulb size={16} className="text-yellow" />
+                  <Lightbulb size={16} className="text-purple-500" />
                   <h3 className="font-mono text-[10px] uppercase tracking-[0.2em]">Analysis Overview</h3>
                 </div>
                 <p className="font-ui text-base leading-relaxed text-secondary bg-surface-2/50 p-4 rounded-md border border-border/50">

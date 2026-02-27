@@ -18,5 +18,5 @@ export async function createInsight(
 }
 
 export async function triggerInsightGeneration(): Promise<void> {
-  await client.post('/trigger-insights');
+  await client.post('/scraper/trigger-insights');
 }

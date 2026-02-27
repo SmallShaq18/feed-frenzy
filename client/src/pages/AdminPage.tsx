@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { RefreshCw, Mail, Send } from 'lucide-react';
-import { useScrapingStats, useTriggerScrape } from '../hooks/useScraperStats';
+import { useScrapingStats, useTriggerScrape, useTriggerInsightGeneration, useTriggerTrendDetection } from '../hooks/useScraperStats';
 import { useSubscribers } from '../hooks/useSubscribers';
 import { useMutation } from '@tanstack/react-query';
 import { sendTestNewsletter } from '../api/newsletter';
@@ -11,11 +11,14 @@ import Input from '../components/ui/Input';
 import Spinner from '../components/ui/Spinner';
 import Modal from '../components/ui/Modal';
 import { formatRelativeDate } from '../utils/formatDate';
+//import { triggerInsightGeneration } from '../api/insights';
 
 export default function AdminPage() {
   const { data: stats, isLoading } = useScrapingStats();
   const { data: subscriberData } = useSubscribers();
   const { mutate: triggerScrape, isPending: isScraping } = useTriggerScrape();
+  const { mutate: triggerInsightGeneration, isPending: isGeneratingInsights } = useTriggerInsightGeneration();
+  const { mutate: triggerTrendDetection, isPending: isDetectingTrends } = useTriggerTrendDetection();
 
   const [testEmail, setTestEmail] = useState('');
   const [showTestModal, setShowTestModal] = useState(false);
@@ -50,12 +53,20 @@ export default function AdminPage() {
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col md:flex-row gap-3">
             <Button variant="secondary" size="md" onClick={() => setShowTestModal(true)} className="font-mono text-[10px] tracking-tighter uppercase border-border">
               <Mail size={14} className="mr-2 text-violet-500" /> Test Newsletter
             </Button>
             <Button variant="primary" size="md" onClick={() => triggerScrape()} loading={isScraping} className="font-mono text-[10px] tracking-tighter uppercase bg-violet-600 hover:bg-violet-700 text-white">
               <RefreshCw size={14} className={`mr-2 ${isScraping ? 'animate-spin' : ''}`} /> Run Scraper
+            </Button>
+          </div>
+          <div className="flex flex-col md:flex-row gap-3">
+            <Button variant="primary" size="md" onClick={() => triggerInsightGeneration()} loading={isGeneratingInsights} className="font-mono text-[10px] tracking-tighter uppercase bg-violet-600 hover:bg-violet-700 text-white">
+              <RefreshCw size={14} className={`mr-2 ${isGeneratingInsights ? 'animate-spin' : ''}`} /> Generate Insights
+            </Button>
+            <Button variant="primary" size="md" onClick={() => triggerTrendDetection()} loading={isDetectingTrends} className="font-mono text-[10px] tracking-tighter uppercase bg-violet-600 hover:bg-violet-700 text-white">
+              <RefreshCw size={14} className={`mr-2 ${isDetectingTrends ? 'animate-spin' : ''}`} /> Detect Trends
             </Button>
           </div>
         </header>

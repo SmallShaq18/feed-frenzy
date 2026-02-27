@@ -37,7 +37,10 @@ export const useBookmarkStore = create<BookmarkStore>()(
         return get().bookmarks.some(b => b._id === id);
       },
 
-      clear: () => set({ bookmarks: [] }),
+      clear: () => {
+      if (!confirm('Clear all bookmarks? This cannot be undone.')) return;
+      set({ bookmarks: [] });
+    },
     }),
     {
       name: 'feed-frenzy-bookmarks',

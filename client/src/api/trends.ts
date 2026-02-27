@@ -16,3 +16,7 @@ export async function fetchTrendingKeywords(days = 3): Promise<string[]> {
   });
   return data.data;
 }
+
+export async function triggerTrendDetection(): Promise<void> {
+  await client.post('/scraper/trigger-trends');
+}

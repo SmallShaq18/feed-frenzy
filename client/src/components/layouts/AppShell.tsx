@@ -14,7 +14,8 @@ export default function AppShell() {
       <Navbar />
 
       <div className="flex pt-14"> {/* pt-14 = navbar height offset */}
-        <Sidebar />
+        {/*window.innerWidth > 768 && <Sidebar />*/}
+        <Sidebar/>
 
         {/* Main content area shifts right when sidebar is open */}
         <main

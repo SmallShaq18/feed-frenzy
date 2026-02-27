@@ -1,70 +1,176 @@
-/*import TrendCloud from '../components/trends/TrendCloud';
+import { useState, useRef, useEffect } from 'react';
+import { TrendingUp } from 'lucide-react';
+import TrendCloud from '../components/trends/TrendCloud';
 import TrendFeed from '../components/trends/TrendFeed';
+import clsx from 'clsx';
+
+const TREND_TABS = [
+  { status: 'rising', label: 'RISING', icon: '↑', color: 'text-green', borderColor: 'border-green' },
+  { status: 'peak', label: 'PEAK', icon: '●', color: 'text-yellow', borderColor: 'border-yellow' },
+  { status: 'declining', label: 'FADING', icon: '↓', color: 'text-coral', borderColor: 'border-coral' },
+] as const;
 
 export default function TrendsPage() {
-  const sections = [
-    { title: 'Rising', icon: '↑', color: 'text-emerald-500', status: 'rising' },
-    { title: 'Peak', icon: '●', color: 'text-violet-500', status: 'peak' },
-    { title: 'Fading', icon: '↓', color: 'text-coral', status: 'declining' },
-  ];
+  const [activeTab, setActiveTab] = useState<'rising' | 'peak' | 'declining'>('rising');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isScrollingProgrammatically = useRef(false);
+
+  // Scroll to active section when tab is clicked
+  useEffect(() => {
+    if (!scrollContainerRef.current || window.innerWidth >= 768) return;
+
+    const activeIndex = TREND_TABS.findIndex(tab => tab.status === activeTab);
+    const scrollPosition = activeIndex * scrollContainerRef.current.offsetWidth;
+
+    // Set flag before scrolling
+    isScrollingProgrammatically.current = true;
+
+    scrollContainerRef.current.scrollTo({
+      left: scrollPosition,
+      behavior: 'smooth'
+    });
+
+    // Clear flag after scroll animation completes
+    setTimeout(() => {
+      isScrollingProgrammatically.current = false;
+    }, 200); // Match scroll animation duration
+
+  }, [activeTab]);
+
+  // Handle manual swipe (finger drag)
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    // Ignore scroll events triggered by tab clicks
+    if (isScrollingProgrammatically.current) return;
+
+    const container = e.currentTarget;
+    const scrollLeft = container.scrollLeft;
+    const width = container.offsetWidth;
+    const index = Math.round(scrollLeft / width);
+
+    if (TREND_TABS[index]) {
+      setActiveTab(TREND_TABS[index].status);
+    }
+  };
 
   return (
-    <div className="flex flex-col gap-12">
-      <header className="border-b border-border pb-8">
-        <h1 className="font-display text-6xl tracking-tighter uppercase italic leading-none">
-          MACRO <span className="text-transparent border-v-stroke">TRENDS</span>
+    <div className="flex flex-col gap-6 md:gap-8">
+      {/* Header */}
+      <div className="border-b border-border pb-4 md:pb-6">
+        <div className="flex items-center gap-2 mb-2">
+          <TrendingUp size={16} className="text-yellow" />
+          <span className="font-mono text-[10px] text-muted tracking-widest uppercase">
+            Tracking What's Hot
+          </span>
+        </div>
+        <h1 className="font-display text-4xl md:text-5xl tracking-widest text-primary leading-none">
+          TRENDS
         </h1>
-        <p className="font-mono text-[10px] text-muted-foreground mt-4 uppercase tracking-[0.3em]">
-          Real-time keyword velocity analysis // 7-Day Window
+        <p className="font-mono text-[10px] md:text-xs text-muted mt-1">
+          Updated daily at 2 AM UTC
         </p>
-      </header>
+      </div>
 
-      <section className="bg-muted/10 border border-border p-8 backdrop-blur-sm">
-        <h2 className="font-mono text-[10px] font-bold text-muted-foreground tracking-[0.4em] uppercase mb-8 flex items-center gap-4">
-          Visual Heatmap <div className="h-px flex-1 bg-border" />
+      {/* Keyword Cloud */}
+      <section>
+        <h2 className="font-mono text-[10px] text-muted tracking-widest uppercase mb-3">
+          Trending Keywords
         </h2>
         <TrendCloud />
       </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
-        {sections.map((s) => (
-          <section key={s.title} className="bg-background p-6">
-            <h2 className={`font-display text-2xl tracking-tighter mb-6 flex items-center justify-between uppercase italic ${s.color}`}>
-              {s.title} <span className="text-xs font-mono opacity-50">{s.icon}</span>
+      {/* Mobile: Tab Navigation */}
+      <div className="md:hidden">
+        <div className="flex items-center border-b border-border relative">
+          {TREND_TABS.map(tab => (
+            <button
+              key={tab.status}
+              onClick={() => setActiveTab(tab.status)}
+              className={clsx(
+                'flex-1 font-display text-sm tracking-wider py-3 border-b-2 transition-all duration-fast',
+                'flex items-center justify-center gap-1.5',
+                activeTab === tab.status
+                  ? `${tab.borderColor} ${tab.color}`
+                  : 'border-transparent text-muted'
+              )}
+            >
+              <span>{tab.icon}</span>
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Swipeable container */}
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide mt-6"
+          onScroll={handleScroll}
+        >
+          {TREND_TABS.map(tab => (
+            <div key={tab.status} className="w-full flex-shrink-0 snap-center px-1">
+              <TrendFeed status={tab.status} />
+            </div>
+          ))}
+        </div>
+
+        {/* Swipe indicator dots */}
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {TREND_TABS.map(tab => (
+            <button
+              key={tab.status}
+              onClick={() => setActiveTab(tab.status)}
+              className={clsx(
+                'w-2 h-2 rounded-full transition-all duration-fast',
+                activeTab === tab.status
+                  ? `${tab.color} bg-current`
+                  : 'bg-border'
+              )}
+              aria-label={`View ${tab.label} trends`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop: 3-Column Grid */}
+      <div className="hidden md:grid md:grid-cols-3 gap-6">
+        {TREND_TABS.map(tab => (
+          <section key={tab.status}>
+            <h2 className={clsx('font-display text-xl tracking-widest mb-3 flex items-center gap-2', tab.color)}>
+              <span>{tab.icon}</span>
+              <span>{tab.label}</span>
             </h2>
-            <TrendFeed status="declining" />
+            <TrendFeed status={tab.status} />
           </section>
         ))}
       </div>
     </div>
   );
-}*/
+}
 
-import TrendCloud from '../components/trends/TrendCloud';
+/*import TrendCloud from '../components/trends/TrendCloud';
 import TrendFeed  from '../components/trends/TrendFeed';
 
 export default function TrendsPage() {
   return (
     <div className="flex flex-col gap-8">
-      {/* Header */}
+      {/* Header *
       <div className="border-b border-border pb-6">
         <h1 className="font-display text-5xl tracking-widest text-primary leading-none">
           TRENDING
         </h1>
-        <p className="font-mono text-xs text-muted mt-1">
+        <p className="font-mono text-xs mt-1">
           Keywords dominating the feed right now. Click any to filter.
         </p>
       </div>
 
-      {/* Keyword cloud */}
+      {/* Keyword cloud *
       <section>
-        <h2 className="font-mono text-[10px] text-muted tracking-widest uppercase mb-3">
+        <h2 className="font-mono text-[10px] tracking-widest uppercase mb-3">
           Keyword cloud · last 7 days
         </h2>
         <TrendCloud />
       </section>
 
-      {/* Trend columns */}
+      {/* Trend columns *
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <section>
           <h2 className="font-display text-xl tracking-widest text-green mb-3">
@@ -74,7 +180,7 @@ export default function TrendsPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-xl tracking-widest text-yellow mb-3">
+          <h2 className="font-display text-xl tracking-widest text-purple-500 mb-3">
             PEAK ●
           </h2>
           <TrendFeed status="peak" />
@@ -89,4 +195,4 @@ export default function TrendsPage() {
       </div>
     </div>
   );
-}
+}*/

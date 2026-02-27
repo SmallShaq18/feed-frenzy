@@ -102,7 +102,7 @@
 
     /* Trend status */
     --color-trend-rising:   #10B981;
-    --color-trend-peak:     #F59E0B;
+    --color-trend-peak:     #690bf5;
     --color-trend-declining:#DC2626;
 
     /* Shadows for light mode */
@@ -205,6 +205,16 @@
    ============================================ */
 
 @layer utilities {
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
   /* Display font utility */
   .font-display {
     font-family: var(--font-display);

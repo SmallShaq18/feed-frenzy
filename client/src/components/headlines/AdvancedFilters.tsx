@@ -17,11 +17,11 @@ export default function AdvancedFilters() {
         variant="secondary"
         size="sm"
         onClick={() => setOpen(true)}
-        className={clsx('gap-2 border-dashed', isAdvancedActive && 'border-yellow text-yellow')}
+        className={clsx('gap-2 border-dashed', isAdvancedActive && 'border-purple-500 text-purple-500')}
       >
         <SlidersHorizontal size={14} />
         <span className="font-mono text-[10px] uppercase tracking-wider">Parameters</span>
-        {isAdvancedActive && <span className="w-1.5 h-1.5 rounded-full bg-yellow" />}
+        {isAdvancedActive && <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />}
       </Button>
 
       <Modal open={open} onClose={() => setOpen(false)} title="System Filters" size="md">
@@ -96,7 +96,7 @@ export default function AdvancedFilters() {
 
 const FilterSection = ({ label, children }: { label: string, children: React.ReactNode }) => (
   <div>
-    <label className="font-mono text-[9px] text-muted tracking-[0.2em] uppercase mb-3 block italic">{label}</label>
+    <label className="font-mono text-[9px] tracking-[0.2em] uppercase mb-3 block italic">{label}</label>
     {children}
   </div>
 );
@@ -106,7 +106,7 @@ const FilterBtn = ({ active, onClick, label }: any) => (
     onClick={onClick}
     className={clsx(
       'px-2 py-2 font-mono text-[10px] uppercase border transition-all',
-      active ? 'bg-primary text-bg border-primary' : 'border-border text-muted hover:border-primary/50 hover:text-primary'
+      active ? 'bg-primary text-bg border-primary' : 'border-border hover:border-primary/50 hover:text-primary'
     )}
   >
     {label}

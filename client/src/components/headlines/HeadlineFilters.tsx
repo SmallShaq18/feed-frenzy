@@ -24,7 +24,7 @@ export default function HeadlineFilters() {
             onClick={() => setFilter('sentiment', opt.value)}
             className={clsx(
               "px-3 py-1 font-mono text-[9px] uppercase tracking-tighter transition-all",
-              active ? "bg-surface text-primary shadow-sm" : "text-muted hover:text-secondary"
+              active ? "bg-surface text-primary shadow-sm" : " hover:text-secondary"
             )}
             style={active ? { borderLeft: `2px solid ${color}` } : {}}
           >

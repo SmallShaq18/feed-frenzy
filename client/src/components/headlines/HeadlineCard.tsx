@@ -128,8 +128,8 @@ export default function HeadlineCard({
       {isFresh && (
         <div className="absolute top-2 right-2 z-10">
           <div className="relative flex items-center gap-1 bg-yellow/10 border border-yellow/30 backdrop-blur-sm rounded-sm px-1.5 py-0.5">
-            <Zap size={10} className="text-yellow animate-pulse" fill="currentColor" />
-            <span className="font-mono text-[8px] text-yellow tracking-widest uppercase font-bold">
+            <Zap size={10} className="text-purple-500 animate-pulse" fill="currentColor" />
+            <span className="font-mono text-[8px] text-purple-500 tracking-widest uppercase font-bold">
               Fresh
             </span>
           </div>
@@ -164,7 +164,7 @@ export default function HeadlineCard({
           </span>
           <div className="h-3 w-px bg-border" />
           <span className="font-mono text-[10px] text-muted uppercase">{formatRelativeDate(headline.publishedAt)}</span>
-          {isFresh && <Zap size={10} className="text-yellow fill-yellow" />}
+          {isFresh && <Zap size={10} className="text-purple-500 fill-purple-500" />}
 
             {headline.category && (
               <Badge

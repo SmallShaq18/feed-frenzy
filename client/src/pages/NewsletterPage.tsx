@@ -37,7 +37,7 @@ export default function NewsletterPage() {
             <h2 className="font-display text-2xl mb-6 uppercase italic tracking-tighter">Initialize Subscription</h2>
             <SubscribeForm />
           </div>
-          <div className="absolute top-[-20px] right-[20px] text-[120px] font-display text-foreground/[0.03] pointer-events-none select-none">
+          <div className="absolute top-[-20px] right-[-30px] text-[120px] font-display text-foreground/[0.03] pointer-events-none select-none">
             @
           </div>
         </div>

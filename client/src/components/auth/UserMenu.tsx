@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { LogOut, Settings, Shield } from 'lucide-react';
+import { LogOut, Shield } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 
 export default function UserMenu() {
@@ -48,9 +48,9 @@ export default function UserMenu() {
                 <Shield size={12} /> Access Admin
               </Link>
             )}
-            <button className="flex items-center gap-3 w-full px-3 py-2 font-mono text-[10px] uppercase text-secondary hover:bg-surface-2 transition-colors">
+            {/*<button className="flex items-center gap-3 w-full px-3 py-2 font-mono text-[10px] uppercase text-secondary hover:bg-surface-2 transition-colors">
               <Settings size={12} /> Preferences
-            </button>
+            </button>*/}
             <div className="h-px bg-border my-1" />
             <button
               onClick={() => { logout(); setOpen(false); }}

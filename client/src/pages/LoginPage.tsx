@@ -60,7 +60,6 @@ export default function LoginPage() {
                 className="bg-muted/50 border-border font-mono text-sm rounded-none focus:ring-1 focus:ring-violet-600"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="admin@feedfrenzy.com"
                 required
               />
             </div>
@@ -95,9 +94,9 @@ export default function LoginPage() {
           </form>
           
           <div className="mt-8 pt-6 border-t border-border text-center">
-            <p className="font-mono text-[9px] text-muted-foreground uppercase leading-relaxed tracking-tighter italic">
+            {/*<p className="font-mono text-[9px] text-muted-foreground uppercase leading-relaxed tracking-tighter italic">
               Credential hint: any character string will pass the handshake validation in this environment.
-            </p>
+            </p>*/}
           </div>
         </div>
       </div>

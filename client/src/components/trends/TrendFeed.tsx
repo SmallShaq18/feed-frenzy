@@ -1,37 +1,3 @@
-/*import { useTrends } from '../../hooks/useTrends';
-import TrendCard from './TrendCard';
-import EmptyState from '../ui/EmptyState';
-import ErrorState from '../ui/ErrorState';
-import type { Trend } from '../../types/index';
-
-export default function TrendFeed({ status }: { status?: 'rising' | 'peak' | 'declining' }) {
-  const { data: trends = [], isLoading, isError, refetch } = useTrends(status);
-
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="h-32 w-full bg-surface border border-border animate-pulse rounded-sm" />
-        ))}
-      </div>
-    );
-  }
-
-  if (isError) return <ErrorState title="Telemetry Error" onRetry={refetch} />;
-  
-  if (trends.length === 0) {
-    return <EmptyState icon="📡" title="Zero Frequency" description="No active trends matching current parameters." />;
-  }
-
-  return (
-    <div className="grid grid-cols-1 gap-4">
-      {trends.map((trend: Trend, i) => (
-        <TrendCard key={trend._id} trend={trend} index={i} />
-      ))}
-    </div>
-  );
-}*/
-
 import { useTrends } from '../../hooks/useTrends';
 import TrendCard from './TrendCard';
 import EmptyState from '../ui/EmptyState';
@@ -40,10 +6,12 @@ import type { Trend } from '../../types/index';
 
 interface TrendFeedProps {
   status?: 'rising' | 'peak' | 'declining';
+  limit?: number;
 }
 
-export default function TrendFeed({ status }: TrendFeedProps) {
+export default function TrendFeed({ status, limit }: TrendFeedProps) {
   const { data: trends = [], isLoading, isError, refetch } = useTrends(status);
+  const displayedTrends = limit ? trends.slice(0, limit) : trends;
 
   if (isLoading) {
     return (
@@ -65,7 +33,7 @@ export default function TrendFeed({ status }: TrendFeedProps) {
     );
   }
 
-  if (trends.length === 0) {
+  if (displayedTrends.length === 0) {
     return (
       <EmptyState
         icon="📊"

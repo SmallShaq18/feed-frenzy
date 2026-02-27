@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AppShell from '../components/layouts/AppShell';
 import AuthGuard from '../components/auth/AuthGuard';
 import Spinner from '../components/ui/Spinner';
+import ScrollToTop from '../components/ScrollToTop';
 
 /**
  * All pages are lazy-loaded.
@@ -31,6 +32,7 @@ const PageLoader = () => (
 export default function AppRouter() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <ScrollToTop />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           {/* Public routes inside the AppShell */}
