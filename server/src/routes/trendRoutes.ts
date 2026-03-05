@@ -8,6 +8,7 @@ const router = Router();
  * @desc    Get all trends, optionally filter by status
  * @query   status (rising, peak, declining)
  */
+
 router.get('/', trendController.getTrends);
 
 /**
@@ -15,6 +16,7 @@ router.get('/', trendController.getTrends);
  * @desc    Get trending keywords for the past N days
  * @query   days (default: 7)
  */
+
 router.get('/keywords', trendController.getTrendingKeywords);
 
 export default router;

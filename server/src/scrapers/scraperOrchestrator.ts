@@ -133,6 +133,7 @@ class ScraperOrchestrator {
   /**
    * Normalize URL for deduplication
    */
+  
   private normalizeUrl(url: string): string {
     try {
       const urlObj = new URL(url);

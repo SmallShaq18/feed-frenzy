@@ -8,10 +8,12 @@ import logger from '../config/logger';
 /**
  * Business logic for headline operations
  */
+
 class HeadlineService {
   /**
    * Retrieve paginated headlines with optional filters
    */
+
   async getHeadlines(filters: {
     page?: number;
     limit?: number;
@@ -20,10 +22,10 @@ class HeadlineService {
     keyword?: string;
     search?: string;
     sentiment?: 'positive' | 'neutral' | 'negative';
-    sortBy?: 'recent' | 'trending' | 'relevant'; // NEW
-    dateRange?: 'today' | 'week' | 'month' | 'all'; // NEW
-    inViews?: number; // NEW
-    hasImage?: boolean; // NEW
+    sortBy?: 'recent' | 'trending' | 'relevant';
+    dateRange?: 'today' | 'week' | 'month' | 'all';
+    inViews?: number;
+    hasImage?: boolean;
   }) {
     const page = filters.page || 1;
     const limit = filters.limit || 20;
@@ -92,6 +94,7 @@ class HeadlineService {
   /**
    * Get single headline by ID
    */
+
   async getHeadlineById(id: string): Promise<IHeadline> {
     const headline = await Headline.findById(id);
     if (!headline) {
@@ -103,6 +106,7 @@ class HeadlineService {
   /**
    * Create new headline with automatic keyword extraction and sentiment analysis
    */
+
   async createHeadline(data: Partial<IHeadline>): Promise<IHeadline> {
     try {
       // Extract keywords if not provided
@@ -147,6 +151,7 @@ class HeadlineService {
    * Bulk insert headlines (for scraper efficiency)
    * Automatically extracts keywords and sentiment for each
    */
+
   async bulkCreateHeadlines(headlines: Partial<IHeadline>[]): Promise<number> {
     try {
       // Process each headline
@@ -180,6 +185,7 @@ class HeadlineService {
   /**
    * Get headlines grouped by source
    */
+  
   async getHeadlinesBySource(): Promise<Array<{ source: string; count: number }>> {
     const result = await Headline.aggregate([
       {

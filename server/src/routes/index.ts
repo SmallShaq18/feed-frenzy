@@ -11,6 +11,7 @@ const router = Router();
  * Central route registration
  * All API routes are prefixed with /api
  */
+
 router.use('/headlines', headlineRoutes);
 router.use('/trends', trendRoutes);
 router.use('/insights', insightRoutes);

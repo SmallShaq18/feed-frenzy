@@ -19,8 +19,8 @@ interface UIStore {
 export const useUIStore = create<UIStore>()(
   persist(
     (set, get) => ({
-      sidebarOpen: true,
-      theme: 'dark',
+      sidebarOpen: false,
+      theme: 'light',
       activeModal: null,
 
       toggleSidebar: () =>

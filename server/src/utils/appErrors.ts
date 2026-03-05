@@ -2,6 +2,7 @@
  * Custom error class for operational errors
  * Extends native Error with HTTP status code
  */
+
 class AppError extends Error {
   statusCode: number;
   isOperational: boolean;

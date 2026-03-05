@@ -6,6 +6,7 @@ import scraperOrchestrator from '../scrapers/scraperOrchestrator';
 /**
  * Scheduled job for scraping news sources
  */
+
 export const startScrapeJob = () => {
   cron.schedule(env.SCRAPE_SCHEDULE, async () => {
     logger.info('🕷️  Scheduled scrape job triggered');

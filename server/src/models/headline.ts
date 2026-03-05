@@ -57,6 +57,17 @@ const HeadlineSchema = new Schema<IHeadline>(
     imageUrl: {
       type: String,
     },
+    processing: {
+        keywordsExtracted: { type: Boolean, default: false },
+        sentimentAnalyzed: { type: Boolean, default: false },
+        addedToTrends: { type: Boolean, default: false },
+        usedInInsight: { type: Boolean, default: false }
+      },
+    sourceType: {
+        type: String,
+        enum: ['rss', 'html', 'api'],
+        default: 'html'
+      },
     metadata: {
       clicks: {
         type: Number,
@@ -65,17 +76,6 @@ const HeadlineSchema = new Schema<IHeadline>(
       shares: {
         type: Number,
         default: 0,
-      },
-      processing: {
-        keywordsExtracted: { type: Boolean, default: false },
-        sentimentAnalyzed: { type: Boolean, default: false },
-        addedToTrends: { type: Boolean, default: false },
-        usedInInsight: { type: Boolean, default: false }
-      },
-      sourceType: {
-        type: String,
-        enum: ['rss', 'html', 'api'],
-        default: 'html'
       },
     },
   },

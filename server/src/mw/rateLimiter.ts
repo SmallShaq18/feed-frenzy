@@ -5,6 +5,7 @@ import { env } from '../config/env';
  * API rate limiter to prevent abuse
  * Applies to all routes
  */
+
 export const limiter = rateLimit({
   windowMs: env.RATE_LIMIT_WINDOW_MS,
   max: env.RATE_LIMIT_MAX_REQUESTS,

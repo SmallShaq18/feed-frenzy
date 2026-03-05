@@ -6,6 +6,7 @@ import logger from './logger';
  * Establishes MongoDB connection with retry logic
  * Handles connection events and errors
  */
+
 export const connectDatabase = async (): Promise<void> => {
   try {
     const options = {

@@ -12,6 +12,7 @@ import { IHeadline } from '../types';
 /**
  * Scrape articles from a website using custom selectors
  */
+
 export async function scrapeHTMLPage(source: NewsSource): Promise<Partial<IHeadline>[]> {
   if (!source.websiteUrl || !source.scrapeRules) {
     throw new Error(`No website URL or scrape rules configured for ${source.name}`);
@@ -55,8 +56,15 @@ export async function scrapeHTMLPage(source: NewsSource): Promise<Partial<IHeadl
         if (!link) return; // Skip if no link
 
         // Make absolute URL if relative
+        
+        // Make absolute URL if relative
         if (link.startsWith('/')) {
-          const baseUrl = new URL(source.websiteUrl);
+          if (!source.websiteUrl) {
+            logger.warn(`Skipping relative link for ${source.name}: no websiteUrl configured`);
+            return;  // Skip this link
+          }
+          
+          const baseUrl = new URL(source.websiteUrl);  // ✓ TypeScript knows it's defined now
           link = `${baseUrl.origin}${link}`;
         }
 
@@ -113,6 +121,7 @@ export async function scrapeHTMLPage(source: NewsSource): Promise<Partial<IHeadl
  * Scrape full article content from a URL
  * Useful for getting full text beyond RSS summaries
  */
+
 export async function scrapeArticleContent(url: string): Promise<string | null> {
   try {
     const response = await axios.get(url, {
@@ -161,6 +170,7 @@ export async function scrapeArticleContent(url: string): Promise<string | null> 
 /**
  * Example: Custom scraper for a specific site (Hacker News HTML if RSS fails)
  */
+
 export async function scrapeHackerNewsHTML(): Promise<Partial<IHeadline>[]> {
   try {
     logger.info('🕷️  Scraping Hacker News HTML');

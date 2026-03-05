@@ -7,6 +7,7 @@ import { ApiResponse } from '../types';
  * Controller for headline routes
  * Thin layer that calls service methods
  */
+
 export const getHeadlines = asyncHandler(async (req: Request, res: Response) => {
   const { page, limit, source, category, keyword, sentiment, search, sortBy,      // NEW
     dateRange,  minViews, hasImage, } = req.query;
@@ -34,7 +35,7 @@ export const getHeadlines = asyncHandler(async (req: Request, res: Response) => 
 });
 
 export const getHeadlineById = asyncHandler(async (req: Request, res: Response) => {
-  const headline = await headlineService.getHeadlineById(req.params.id);
+  const headline = await headlineService.getHeadlineById(req.params.id as string);
 
   const response: ApiResponse = {
     success: true,
@@ -44,10 +45,7 @@ export const getHeadlineById = asyncHandler(async (req: Request, res: Response) 
   res.status(200).json(response);
 });
 
-/**
- * @route   POST /api/headlines (for testing)
- * @desc    Manually create a headline
- */
+
 export const createHeadline = asyncHandler(async (req: Request, res: Response) => {
   const headline = await headlineService.createHeadline(req.body);
 
@@ -60,13 +58,9 @@ export const createHeadline = asyncHandler(async (req: Request, res: Response) =
   res.status(201).json(response);
 });
 
-/**
- * @route   POST /api/headlines/:id/track-click
- * @desc    Increment click count for an article
- */
 
 export const trackClick = asyncHandler(async (req: Request, res: Response) => {
-  const headline = await headlineService.trackClick(req.params.id);
+  const headline = await headlineService.trackClick(req.params.id as string);
 
   const response: ApiResponse = {
     success: true,

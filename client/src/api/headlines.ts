@@ -6,6 +6,7 @@ import type { HeadlineListResponse, Headline } from '../types/index';
  * Fetch paginated, filterable headlines.
  * TanStack Query calls this — it should only fetch, never cache.
  */
+
 export async function fetchHeadlines(
   filters: HeadlineFilters = {}
 ): Promise<HeadlineListResponse> {
@@ -17,6 +18,7 @@ export async function fetchHeadlines(
 /**
  * Fetch a single headline by ID.
  */
+
 export async function fetchHeadlineById(id: string): Promise<Headline> {
   const { data } = await client.get(`/headlines/${id}`);
   return data.data;

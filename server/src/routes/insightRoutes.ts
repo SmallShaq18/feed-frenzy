@@ -8,12 +8,14 @@ const router = Router();
  * @desc    Get insights with filters
  * @query   featured, type
  */
+
 router.get('/', insightController.getInsights);
 
 /**
  * @route   POST /api/insights
  * @desc    Create a new insight (for testing/manual entry)
  */
+
 router.post('/', insightController.createInsight);
 
 export default router;

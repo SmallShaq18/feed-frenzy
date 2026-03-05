@@ -18,6 +18,7 @@ const app: Application = express();
 /**
  * Middleware
  */
+
 app.use(helmet()); // Security headers
 app.use(cors({ origin: env.ALLOWED_ORIGINS.split(',') })); // CORS
 app.use(express.json()); // Parse JSON bodies
@@ -27,11 +28,13 @@ app.use(morgan('dev')); // HTTP request logging
 /**
  * Rate limiting
  */
+
 app.use('/api', limiter);
 
 /**
  * Health check endpoint
  */
+
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
@@ -43,11 +46,13 @@ app.get('/health', (req: Request, res: Response) => {
 /**
  * API Routes
  */
+
 app.use('/api', routes);
 
 /**
  * 404 Handler
  */
+
 app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
@@ -63,11 +68,13 @@ app.use((req: Request, res: Response) => {
 /**
  * Global Error Handler (must be last)
  */
+
 app.use(errorHandler);
 
 /**
  * Start Server
  */
+
 const startServer = async () => {
   try {
     // Connect to MongoDB

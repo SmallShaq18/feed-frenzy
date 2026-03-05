@@ -8,10 +8,12 @@ import { findCooccurringKeywords } from '../analyser/keywordExtractor';
 /**
  * Trend detection and analysis service
  */
+
 class TrendService {
   /**
    * Get all trends, optionally filter by status
    */
+
   async getTrends(status?: 'rising' | 'peak' | 'declining') {
     const query = status ? { status } : {};
     const trends = await Trend.find(query)
@@ -24,6 +26,7 @@ class TrendService {
   /**
    * Detect trends from recent headlines
    */
+
   async detectTrends(): Promise<void> {
     logger.info('🔍 Trend detection job started');
 
@@ -116,6 +119,7 @@ class TrendService {
   /**
    * Get trending keywords for a specific time range
    */
+
   async getTrendingKeywords(days: number = 3): Promise<string[]> {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
@@ -134,6 +138,7 @@ class TrendService {
   /**
    * Detect anomalies in current trends vs historical baseline
    */
+  
   async detectAnomalies(): Promise<any[]> {
     // Get current trends (last 7 days)
     const currentTrends = await Trend.find({

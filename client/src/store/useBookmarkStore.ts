@@ -2,12 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Headline } from '../types/index';
 
-/**
- * Bookmark store — persists to localStorage.
- * No backend needed. Bookmarks are per-browser.
- * Future: sync to user account when auth is real.
- */
-
 interface BookmarkStore {
   bookmarks: Headline[];
   add: (headline: Headline) => void;

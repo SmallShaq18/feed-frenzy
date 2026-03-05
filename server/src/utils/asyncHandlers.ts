@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from 'express';
  * Wraps async route handlers to catch errors
  * Eliminates try-catch boilerplate in every controller
  */
+
 export const asyncHandler = (
   fn: (req: Request, res: Response, next: NextFunction) => Promise<any>
 ) => {

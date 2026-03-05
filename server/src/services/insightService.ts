@@ -15,10 +15,12 @@ import { analyzeSentiment } from '../analyser/sentimentAnalyser';
 /**
  * Insight generation engine
  */
+
 class InsightService {
   /**
    * Get insights with optional filters
    */
+
   async getInsights(filters: { featured?: boolean; type?: string; limit?: number }) {
     const query: any = {};
     if (filters.featured !== undefined) query.featured = filters.featured;
@@ -159,6 +161,7 @@ class InsightService {
   /**
    * Create a manual insight (for testing)
    */
+
   async createInsight(data: Partial<IInsight>): Promise<IInsight> {
     const insight = await Insight.create(data);
     return insight;
@@ -167,6 +170,7 @@ class InsightService {
   /**
    * Get featured insights for homepage
    */
+  
   async getFeaturedInsights(limit: number = 5): Promise<IInsight[]> {
     return await Insight.find({ featured: true })
       .sort({ createdAt: -1 })

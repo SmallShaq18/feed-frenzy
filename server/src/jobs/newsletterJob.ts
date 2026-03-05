@@ -13,6 +13,7 @@ import { generateNewsletterHTML, generateNewsletterText } from '../services/emai
  * Scheduled job for weekly newsletter
  * Runs every Sunday at 9 AM
  */
+
 export const startNewsletterJob = () => {
   cron.schedule(env.NEWSLETTER_SCHEDULE, async () => {
     logger.info('📬 Newsletter job started (scheduled)');
@@ -31,6 +32,7 @@ export const startNewsletterJob = () => {
 /**
  * Send weekly newsletter (can be called manually or by cron)
  */
+
 export async function sendWeeklyNewsletter(): Promise<void> {
   // Get content for newsletter
   const sevenDaysAgo = new Date();

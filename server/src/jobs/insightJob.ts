@@ -7,6 +7,7 @@ import insightService from '../services/insightService';
  * Scheduled job for insight generation
  * Runs daily at 3 AM
  */
+
 export const startInsightJob = () => {
   cron.schedule(env.INSIGHTS_SCHEDULE, async () => {
     logger.info('💡 Insight generation job started (scheduled)');

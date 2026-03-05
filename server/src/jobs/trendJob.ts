@@ -6,6 +6,7 @@ import trendService from '../services/trendService';
 /**
  * Scheduled job for trend detection
  */
+
 export const startTrendJob = () => {
   cron.schedule(env.TREND_SCHEDULE, async () => {
     try {

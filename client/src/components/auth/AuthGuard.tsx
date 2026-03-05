@@ -6,12 +6,8 @@ interface AuthGuardProps {
   requiredRole?: User['role'];
 }
 
-/**
- * Wraps protected routes.
- * If unauthenticated → redirect to /login.
- * If wrong role → redirect to /.
- * Otherwise → render the child route via <Outlet />.
- */
+// Wraps protected routes.
+
 export default function AuthGuard({ requiredRole }: AuthGuardProps) {
   const { isAuthenticated, user } = useAuthStore();
 

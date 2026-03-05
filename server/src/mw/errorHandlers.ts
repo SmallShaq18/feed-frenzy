@@ -7,6 +7,7 @@ import { env } from '../config/env';
  * Global error handling middleware
  * Catches all errors and sends consistent JSON responses
  */
+
 export const errorHandler = (
   err: any,
   req: Request,

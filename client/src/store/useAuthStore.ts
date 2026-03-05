@@ -2,16 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User } from '../types/auth';
 
-/**
- * Auth store — mocked for now.
- * When real auth lands:
- * 1. Replace mockLogin with an actual API call to /api/auth/login
- * 2. Store the JWT token and add it to the Axios interceptor in client.ts
- * 3. Add a refreshToken action for silent token renewal
- *
- * persist middleware keeps auth across page refreshes via localStorage.
- */
-
 interface AuthStore {
   user: User | null;
   token: string | null;

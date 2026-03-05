@@ -8,7 +8,6 @@ import ErrorBoundary from './components/ui/ErrorBoundary';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
-      
       <App />
     </ErrorBoundary>
   </StrictMode>

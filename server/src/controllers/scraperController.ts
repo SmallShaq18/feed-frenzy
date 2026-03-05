@@ -4,12 +4,9 @@ import scraperOrchestrator from '../scrapers/scraperOrchestrator';
 import { ApiResponse } from '../types';
 
 /**
- * Controller for manual scraper operations
- */
-
-/**
  * Manually trigger a full scrape
  */
+
 export const triggerFullScrape = asyncHandler(async (req: Request, res: Response) => {
   const result = await scraperOrchestrator.runFullScrape();
 
@@ -25,6 +22,7 @@ export const triggerFullScrape = asyncHandler(async (req: Request, res: Response
 /**
  * Scrape specific sources
  */
+
 export const scrapeSpecificSources = asyncHandler(
   async (req: Request, res: Response) => {
     const { sources } = req.body;
@@ -54,6 +52,7 @@ export const scrapeSpecificSources = asyncHandler(
 /**
  * Get scraping statistics
  */
+
 export const getScrapingStats = asyncHandler(async (req: Request, res: Response) => {
   const stats = await scraperOrchestrator.getScrapingStats();
 

@@ -7,6 +7,7 @@ import { generateNewsletterHTML, generateNewsletterText } from './emailTemplateS
 /**
  * Email service for newsletter sending
  */
+
 class EmailService {
   private transporter;
 
@@ -25,6 +26,7 @@ class EmailService {
   /**
    * Send newsletter to all active subscribers
    */
+  
   async sendNewsletter(content: {
     insights: any[];
     trends: any[];

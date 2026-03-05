@@ -9,6 +9,7 @@ const router = Router();
  * @route   POST /api/scraper/trigger
  * @desc    Manually trigger a full scrape
  */
+
 router.post('/trigger', scraperController.triggerFullScrape);
 
 /**
@@ -16,13 +17,20 @@ router.post('/trigger', scraperController.triggerFullScrape);
  * @desc    Scrape specific sources
  * @body    { sources: ["TechCrunch", "The Verge"] }
  */
+
 router.post('/sources', scraperController.scrapeSpecificSources);
 
 /**
  * @route   GET /api/scraper/stats
  * @desc    Get scraping statistics
  */
+
 router.get('/stats', scraperController.getScrapingStats);
+
+/**
+ * @route   POST /api/scraper/trigger-trends
+ * @desc    Manually trigger a full trend scrape
+ */
 
 router.post('/trigger-trends', async (req, res) => {
   try {
@@ -32,6 +40,11 @@ router.post('/trigger-trends', async (req, res) => {
     res.status(500).json({ success: false, error: 'Trend detection failed' });
   }
 });
+
+/**
+ * @route   POST /api/scraper/trigger-insights
+ * @desc    Manually trigger a full insight scrape
+ */
 
 router.post('/trigger-insights', async (req, res) => {
   try {
