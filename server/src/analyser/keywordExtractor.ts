@@ -39,6 +39,11 @@ const STOPWORDS = new Set([
   'time', 'years', 'revealed', 'announced', 'reported', 'confirmed', 'rumored', 'leaked', 'upcoming', 'coming soon',
   'early', 'late', 'back', 'next', 'still', 'data', 'game', 'official', 'release', 'new', 'latest', 'breaking', 'exclusive',
   'staff', 'star', 'director', 'producer', 'writer', 'cast', 'featuring', 'starring', 'directed by', 'produced by', 'written by',
+  'debut', 'debuted', 'premiered', 'announced', 'revealed', 'reported', 'confirmed', 'rumored', 'leaked', 'upcoming', 'coming soon',
+  'website', 'app', 'mobile', 'desktop', 'version', 'update', 'news', 'media', 'social', 'network',
+  'user', 'users', 'audience', 'viewers', 'fans', 'followers', 'subscribers',
+  'reveal', 'major', 'new', 'latest', 'exclusive', 'breaking', 'news', 'report', 'reports', 'reportedly',
+  'according to', 'claims', 'says', 'said', 'told', 'reports', 'reporting', 'additional cast', 'cast includes', 'starring', 'featuring', 'directed by', 'produced by', 'written by',
   
 
 ]);

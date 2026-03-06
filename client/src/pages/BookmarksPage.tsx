@@ -1,11 +1,14 @@
 import { Trash2 } from 'lucide-react';
 import { useBookmarkStore } from '../store/useBookmarkStore';
 import HeadlineCard from '../components/headlines/HeadlineCard';
+import ArticleDetailPanel from '../components/headlines/ArticleDetailPanel';
+import { useState } from 'react';
 //import EmptyState from '../components/ui/EmptyState';
 //import Button from '../components/ui/Button';
 
 export default function BookmarksPage() {
   const { bookmarks, clear } = useBookmarkStore();
+  const [selectedHeadlineId, setSelectedHeadlineId] = useState<string | null>(null); // NEW
   return (
     <div className="max-w-4xl mx-auto flex flex-col gap-10">
       <header className="border-b border-border pb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -36,11 +39,22 @@ export default function BookmarksPage() {
             <div key={headline._id} className="relative pl-8 pb-10 group">
               {/* Vertical timeline dot */}
               <div className="absolute left-[-5px] top-2 h-2 w-2 rounded-full bg-border group-hover:bg-violet-600 transition-colors" />
-              <HeadlineCard headline={headline} index={i} />
+              {/*<HeadlineCard headline={headline} index={i} />*/}
+              <HeadlineCard
+                              headline={headline}
+                              index={i}
+                              onCardClick={setSelectedHeadlineId} // NEW
+                            />
             </div>
           ))}
         </div>
       )}
+
+      {/* Article Detail Panel */}
+      <ArticleDetailPanel
+        headlineId={selectedHeadlineId}
+        onClose={() => setSelectedHeadlineId(null)}
+      />
     </div>
   );
 }
