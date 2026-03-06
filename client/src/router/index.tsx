@@ -47,7 +47,7 @@ export default function AppRouter() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <ScrollToTop />
-      <LoadingIndicator />
+      {/*<LoadingIndicator />*/}
       <Suspense fallback={<PageLoader />}>
         <Routes>
           {/* Public routes inside the AppShell */}

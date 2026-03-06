@@ -155,7 +155,7 @@ export default function HeadlineCard({
                 'hover:scale-110 active:scale-95',
                 bookmarked
                   ? 'text-purple-500 bg-purple-500/10 opacity-100'
-                  : 'text-primary bg-surface-2 opacity-0 group-hover:opacity-100'
+                  : 'text-primary bg-surface-2 group-hover:opacity-100'
               )}
             >
               {bookmarked ? (
