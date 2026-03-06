@@ -31,9 +31,11 @@ export default function TrendsPage() {
     });
 
     // Clear flag after scroll animation completes
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       isScrollingProgrammatically.current = false;
     }, 200); // Match scroll animation duration
+
+    return () => clearTimeout(timer);
 
   }, [activeTab]);
 

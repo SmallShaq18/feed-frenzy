@@ -1,5 +1,6 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import  NProgress  from 'nprogress';
 import AppShell from '../components/layouts/AppShell';
 import AuthGuard from '../components/auth/AuthGuard';
 import Spinner from '../components/ui/Spinner';
@@ -21,6 +22,19 @@ const NotFoundPage    = lazy(() => import('../pages/NotFoundPage'));
 const UnsubscribePage = lazy(() => import('../pages/UnsubscribePage'));
 const WeeklyRecapPage = lazy(() => import('../pages/WeeklyRecap'));
 
+// Loading indicator on route change
+function LoadingIndicator() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    NProgress.start();
+    return () => {
+      NProgress.done();
+    };
+  }, [pathname]);
+
+  return null;
+}
 
 // Consistent loading fallback used by every lazy page
 const PageLoader = () => (
@@ -33,6 +47,7 @@ export default function AppRouter() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <ScrollToTop />
+      <LoadingIndicator />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           {/* Public routes inside the AppShell */}
