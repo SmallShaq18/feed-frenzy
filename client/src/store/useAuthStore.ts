@@ -14,7 +14,7 @@ interface AuthStore {
 // Mock admin user for development
 const MOCK_ADMIN: User = {
   _id: 'mock-admin-001',
-  email: 'admin@feedfrenzy.com',
+  email: 'admin@feedfrenzy',
   name: 'Admin',
   role: 'admin',
 };
@@ -39,7 +39,7 @@ export const useAuthStore = create<AuthStore>()(
             isAuthenticated: true,
           });
         } else {
-          throw new Error('Invalid credentials (use admin@feedfrenzy.com)');
+          throw new Error('Invalid credentials');
         }
       },
 
