@@ -62,11 +62,11 @@ export default function HeadlineCard({
       {/* Fresh article indicator */}
       {isFresh && (
         <div className="absolute top-2 right-2 z-10">
-          <div className="relative flex items-center gap-1 bg-yellow/10 border border-yellow/30 backdrop-blur-sm rounded-sm px-1.5 py-0.5">
+          <div className="relative flex items-center gap-1 bg-purple-500/10 border border-purple-500/10 backdrop-blur-sm rounded-sm px-1.5 py-0.5">
             <Zap size={10} className="text-purple-500 animate-pulse" fill="currentColor" />
-            <span className="font-mono text-[8px] text-purple-500 tracking-widest uppercase font-bold">
+            {/*<span className="font-mono text-[8px] text-purple-500 tracking-widest uppercase font-bold">
               Fresh
-            </span>
+            </span>*/}
           </div>
         </div>
       )}
@@ -154,8 +154,8 @@ export default function HeadlineCard({
                 'p-1.5 rounded-sm transition-all duration-fast flex-shrink-0',
                 'hover:scale-110 active:scale-95',
                 bookmarked
-                  ? 'text-purple-500 bg-yellow/10 opacity-100'
-                  : 'text-muted hover:text-primary hover:bg-surface-2 opacity-0 group-hover:opacity-100'
+                  ? 'text-purple-500 bg-purple-500/10 opacity-100'
+                  : 'text-primary bg-surface-2 opacity-0 group-hover:opacity-100'
               )}
             >
               {bookmarked ? (
