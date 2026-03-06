@@ -4,10 +4,6 @@ import AppRouter from './router';
 import { useUIStore } from './store/useUIStore';
 import { useEffect } from 'react';
 
-/**
- * App.tsx is just providers.
- * No logic, no layout — that lives in AppShell and the router.
- */
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
